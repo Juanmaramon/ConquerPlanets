@@ -11,18 +11,13 @@ public class PlayerController : MonoBehaviour
     float _vertical = 0f;
     Vector3 _moveDir;
     	
-	// Update is called once per frame
-	void Update () 
-    {
+	private void FixedUpdate()
+	{
         _horizontal = Input.GetAxisRaw("Horizontal");
         _vertical = (_horizontal != 0f) ? 0 : Input.GetAxisRaw("Vertical");
 
         _moveDir = new Vector3(_horizontal, 0.0f, _vertical).normalized;
-        Debug.Log(_moveDir);
-	}
 
-	private void FixedUpdate()
-	{
         _rigid.MovePosition(_rigid.position + transform.TransformDirection(_moveDir) * speed * Time.deltaTime);
     }
 }

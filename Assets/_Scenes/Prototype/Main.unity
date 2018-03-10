@@ -263,7 +263,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 4.95
+  m_Radius: 19.8
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1401980163
 MonoBehaviour:
@@ -396,6 +396,10 @@ Prefab:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 047d4400cc30a4594956919e44068599, type: 2}
+    - target: {fileID: 2300000, guid: 2af619ab7c7bd40ad82a06122461d6ea, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2af619ab7c7bd40ad82a06122461d6ea, type: 3}
   m_IsPrefabParent: 0
@@ -449,7 +453,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 100
+  far clip plane: 500
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -475,7 +479,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1861465443}
   m_LocalRotation: {x: 0.6154888, y: -0, z: -0, w: 0.78814566}
-  m_LocalPosition: {x: 0, y: 10.1, z: -2.4}
+  m_LocalPosition: {x: 0, y: 192.2, z: -34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -493,9 +497,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 2050501428}
-  smoothness: 0.1
-  rotationSmoothness: 5
-  offset: {x: 0, y: 10, z: 0}
+  smoothness: 0.06
+  rotationSmoothness: 60
+  offset: {x: 0, y: 45, z: 0}
 --- !u!1 &2050501424
 GameObject:
   m_ObjectHideFlags: 0
@@ -578,8 +582,8 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2050501424}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.457, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalPosition: {x: 0, y: 21.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1516251806}
   m_Father: {fileID: 0}

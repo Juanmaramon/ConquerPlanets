@@ -22,12 +22,9 @@ public class SmoothFollow : MonoBehaviour {
 		}
 		
 		Vector3 newPos = target.TransformDirection(offset);
-		//transform.position = newPos;
 		transform.position = Vector3.SmoothDamp(transform.position, newPos, ref velocity, smoothness);
 
-		Quaternion targetRot = Quaternion.LookRotation(-transform.position.normalized, target.up);
-		//transform.rotation = targetRot;
-		transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime * rotationSmoothness);
-
+		Quaternion targetRot = Quaternion.LookRotation(-transform.position.normalized, transform.up);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, Time.deltaTime * rotationSmoothness);
 	}
 }
