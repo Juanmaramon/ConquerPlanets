@@ -5,8 +5,8 @@ using UnityEngine;
 public class FauxGravityBody : MonoBehaviour {
 
     [SerializeField] FauxGravityAttractor _attractor;
-    [SerializeField] Transform _trans;
-    [SerializeField] Rigidbody _rigid;
+    [SerializeField, HideInInspector] Transform _trans;
+    [SerializeField, HideInInspector] Rigidbody _rigid;
 
 	private void Start()
     {

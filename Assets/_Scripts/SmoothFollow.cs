@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class SmoothFollow : MonoBehaviour {
 
-	public Transform target;
-
-	public float smoothness = 1f;
-	public float rotationSmoothness = .1f;
+    [SerializeField] Transform target;
+    [SerializeField] float smoothness = 1f;
+    [SerializeField] float rotationSmoothness = .1f;
 
 	public Vector3 offset;
 
