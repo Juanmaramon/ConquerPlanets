@@ -18,6 +18,7 @@ public class SmoothFollow : MonoBehaviour {
     float _sensitivity = 5f;
     float _fov;
 
+    // Zoom with scroll mouse
 	private void Update()
 	{
         _fov = _cam.fieldOfView;
