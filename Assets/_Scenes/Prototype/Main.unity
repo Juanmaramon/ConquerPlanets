@@ -240,6 +240,48 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &880134479
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 880134481}
+  - component: {fileID: 880134480}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &880134480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 880134479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fca1da2c1912b41e78b94eeb49f088c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxBuildings: 5
+  currentBuildings: 0
+--- !u!4 &880134481
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 880134479}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &996423339
 Prefab:
   m_ObjectHideFlags: 0
@@ -247,11 +289,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114797049568703918, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: buildings.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4037455299479216, guid: f6dc88b2b68614021b782d3d33e34b9c, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -289,92 +326,6 @@ Prefab:
       propertyPath: _attractor
       value: 
       objectReference: {fileID: 1401980163}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.atime1
-      value: 50693
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.key1.a
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.atime2
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.m_NumAlphaKeys
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.ctime1
-      value: 38165
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.atime3
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.atime4
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.atime5
-      value: 65535
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.key1.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.key1.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.key1.b
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.key2.r
-      value: 0.30147058
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.key2.g
-      value: 0.30147058
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.key2.b
-      value: 0.30147058
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.ctime2
-      value: 51464
-      objectReference: {fileID: 0}
-    - target: {fileID: 96820779788868792, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: m_Parameters.colorGradient.m_NumColorKeys
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114797049568703918, guid: f6dc88b2b68614021b782d3d33e34b9c,
-        type: 2}
-      propertyPath: buildings.Array.data[0]
-      value: 
-      objectReference: {fileID: 1126966813420814, guid: 8f750edf8ae504ccc8206c3c5eb89140,
-        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f6dc88b2b68614021b782d3d33e34b9c, type: 2}
   m_IsPrefabParent: 0

@@ -10,16 +10,19 @@ public class PlayerController : MonoBehaviour
     [SerializeField, HideInInspector] Rigidbody _rigid;
     [SerializeField] Animator _anim;
     [SerializeField] GameObject[] buildings;
+    [SerializeField] float _distanceBuildCheck = 5f;
 
     float _horizontal = 0f;
     float _vertical = 0f;
     Vector3 _moveDir;
     bool _running = false;
     bool _offline = false;
+    bool _hitBuildDetect = false;
+    RaycastHit _hitCheck;
 
 	private void Start()
 	{
-        _running = _offline = false;
+        _running = _offline = _hitBuildDetect = false;
 	}
 
 	void FixedUpdate()
@@ -27,9 +30,14 @@ public class PlayerController : MonoBehaviour
         if (_offline)
             return;
 
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("space") && (GameManager.instance._currentBuildings < GameManager.instance._maxBuildings))
         {
-            StartCoroutine(Build());
+            // Check if there is a collider of another building
+            _hitBuildDetect = Physics.BoxCast(_trans.position, _trans.localScale, transform.forward, out _hitCheck, _trans.rotation, _distanceBuildCheck);
+            if (!_hitBuildDetect)
+            {
+                StartCoroutine(Build()); 
+            }
         }
 
         _horizontal = Input.GetAxis("Horizontal");
@@ -47,7 +55,14 @@ public class PlayerController : MonoBehaviour
         _rigid.MoveRotation(Quaternion.Slerp(_rigid.rotation, targetRotation, 150f * Time.deltaTime));
     }
 
-    void Update()
+	private void OnDrawGizmos()
+	{
+        Gizmos.color = Color.cyan;
+        Debug.DrawRay(_trans.position, _trans.forward * _distanceBuildCheck, Color.red);
+        Gizmos.DrawWireCube(_trans.position + _trans.forward * _distanceBuildCheck, _trans.localScale);
+	}
+
+	void Update()
     {
         if (_offline)
             return;
@@ -67,9 +82,10 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Build()
     {
+        GameManager.instance._currentBuildings++;
         _offline = true;
         _anim.SetBool("Build", true);
-        var spawnBuildingPosition = _trans.position + _trans.forward * 5;
+        var spawnBuildingPosition = _trans.position + _trans.forward * _distanceBuildCheck;
         Instantiate(buildings[0], spawnBuildingPosition, Quaternion.AngleAxis(Random.Range(0, 359), Vector3.up));
 
         yield return Yielders.Get(Building.buildTime);
