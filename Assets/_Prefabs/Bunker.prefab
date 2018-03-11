@@ -230,9 +230,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73e198228a0f44b61923649406a2e4f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  materials:
-  - {fileID: 2100000, guid: 6b530ff9dd5fe48168d7c01ac6a53baa, type: 2}
-  - {fileID: 2100000, guid: 0ace2d6181d604e1dbc2a65e92c91cde, type: 2}
-  _rend: {fileID: 23887257840315984}
   _rigid: {fileID: 54657465908411908}
   _collider: {fileID: 64064860901821324}
+  _anim: {fileID: 95175487750125858}

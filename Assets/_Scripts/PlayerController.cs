@@ -69,8 +69,8 @@ public class PlayerController : MonoBehaviour
     {
         _offline = true;
         _anim.SetBool("Build", true);
-        var spawnBuildingPosition = _trans.position + transform.forward * 4;
-        Instantiate(buildings[0], spawnBuildingPosition, Quaternion.identity);
+        var spawnBuildingPosition = _trans.position + _trans.forward * 5;
+        Instantiate(buildings[0], spawnBuildingPosition, Quaternion.AngleAxis(Random.Range(0, 359), Vector3.up));
 
         yield return Yielders.Get(Building.buildTime);
 
