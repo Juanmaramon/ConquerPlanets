@@ -19,9 +19,11 @@ public class PlayerController : MonoBehaviour
     bool _offline = false;
     bool _hitBuildDetect = false;
     RaycastHit _hitCheck;
+    BasicEvent _tmpEvent;
 
 	private void Start()
 	{
+        _tmpEvent = new BasicEvent();
         _running = _offline = _hitBuildDetect = false;
 	}
 
@@ -90,6 +92,8 @@ public class PlayerController : MonoBehaviour
 
         yield return Yielders.Get(Building.buildTime);
 
+        _tmpEvent.Data = GameManager.instance._currentBuildings;
+        EventManager.TriggerEvent("OnNewBuilding", _tmpEvent);
         _offline = false;
         _anim.SetBool("Build", false);
     }
