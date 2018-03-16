@@ -13,10 +13,6 @@ public class Turret : MonoBehaviour
     [SerializeField] LayerMask targetMask;
     [HideInInspector] List<Transform> visibleTargets = new List<Transform>();
 
-    RaycastHit hit;
-    Vector3 offsetRay = new Vector3(0f, 0.5f, 0f);
-    Vector3 offsetLook = new Vector3(0f, 1.5f, 0f);
-    bool visibility = true;
     static float visibilityTime = 2f;
     static float staticTime = 2f;
 

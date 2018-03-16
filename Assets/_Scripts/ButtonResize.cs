@@ -6,7 +6,14 @@ public class ButtonResize : MonoBehaviour
 {
     [SerializeField] RectTransform _trans;
 
-    public void Hover()
+    Vector3 _initScale;
+
+	private void Start()
+	{
+        _initScale = _trans.localScale;
+	}
+
+	public void Hover()
     {
         _trans.localScale *= 1.05f;
     }
@@ -14,5 +21,10 @@ public class ButtonResize : MonoBehaviour
     public void HoverOut()
     {
         _trans.localScale /= 1.05f;
+    }
+
+    public void ResetScale()
+    {
+        _trans.localScale = _initScale;
     }
 }

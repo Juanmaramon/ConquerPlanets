@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Animator _anim;
     [SerializeField] GameObject[] buildings;
     [SerializeField] float _distanceBuildCheck = 5f;
+    [SerializeField] UIContextMenu _contextMenu;
+    [SerializeField] GameObject _fxFlare;
 
     float _horizontal = 0f;
     float _vertical = 0f;
@@ -20,11 +22,13 @@ public class PlayerController : MonoBehaviour
     bool _hitBuildDetect = false;
     RaycastHit _hitCheck;
     BasicEvent _tmpEvent;
+    GameObject _placeholderBuilding;
 
 	private void Start()
 	{
         _tmpEvent = new BasicEvent();
         _running = _offline = _hitBuildDetect = false;
+        EventManager.StartListening<BasicEvent>("OnExitContextMenu", OnExitContextMenu);
 	}
 
 	void FixedUpdate()
@@ -32,13 +36,18 @@ public class PlayerController : MonoBehaviour
         if (_offline)
             return;
 
-        if (Input.GetKeyDown("space") && (GameManager.instance._currentBuildings < GameManager.instance._maxBuildings))
+        if (Input.GetKeyDown("space"))
         {
-            // Check if there is a collider of another building
-            _hitBuildDetect = Physics.BoxCast(_trans.position, _trans.localScale, transform.forward, out _hitCheck, _trans.rotation, _distanceBuildCheck);
-            if (!_hitBuildDetect)
+            // Now real construction
+            if (_placeholderBuilding && (GameManager.instance._currentBuildings < GameManager.instance._maxBuildings))
             {
-                StartCoroutine(Build()); 
+                DoBuilding();
+            }
+            // Enter on context menu
+            else
+            {
+                _offline = true;
+                _contextMenu.EnterContextMenu();
             }
         }
 
@@ -80,10 +89,17 @@ public class PlayerController : MonoBehaviour
             _running = false;
             _anim.SetTrigger("Stop");
         }
+
+        if (_placeholderBuilding)
+            _placeholderBuilding.transform.position = _trans.position + _trans.forward * _distanceBuildCheck;
     }
 
     IEnumerator Build()
     {
+        // @TODO: refactor to cheaper options
+        Destroy(_placeholderBuilding);
+        // @TODO: refactor to cheaper options
+        _fxFlare.SetActive(true);
         GameManager.instance._currentBuildings++;
         _offline = true;
         _anim.SetBool("Build", true);
@@ -96,5 +112,40 @@ public class PlayerController : MonoBehaviour
         EventManager.TriggerEvent("OnNewBuilding", _tmpEvent);
         _offline = false;
         _anim.SetBool("Build", false);
+        // @TODO: refactor to cheaper options
+        _fxFlare.SetActive(false);
+    }
+
+    void OnExitContextMenu(BasicEvent e)
+    {
+        _offline = false;
+    }
+
+    public void StartMakeBuilding()
+    {
+        if ((GameManager.instance._currentBuildings < GameManager.instance._maxBuildings))
+        {
+            // @TODO: refactor to cheaper options
+            _placeholderBuilding = Instantiate(buildings[1], _trans);
+            _placeholderBuilding.transform.position = _trans.position + _trans.forward * _distanceBuildCheck;
+        }
+        else
+        {
+            // @TODO: report user building limit reached...
+        }
+    }
+
+    void DoBuilding()
+    {
+        // Check if there is a collider of another building
+        _hitBuildDetect = Physics.BoxCast(_trans.position, _trans.localScale, transform.forward, out _hitCheck, _trans.rotation, _distanceBuildCheck);
+        if (!_hitBuildDetect)
+        {
+            StartCoroutine(Build()); 
+        }
+        else
+        {
+            // @TODO: report user not available zone...
+        }
     }
 }
