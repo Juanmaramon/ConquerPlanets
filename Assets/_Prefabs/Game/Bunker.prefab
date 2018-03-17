@@ -233,3 +233,4 @@ MonoBehaviour:
   _rigid: {fileID: 54657465908411908}
   _collider: {fileID: 64064860901821324}
   _anim: {fileID: 95175487750125858}
+  _gravity: {fileID: 114148964246208948}

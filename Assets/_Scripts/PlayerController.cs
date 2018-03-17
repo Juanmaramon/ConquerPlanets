@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _distanceBuildCheck = 5f;
     [SerializeField] UIContextMenu _contextMenu;
     [SerializeField] GameObject _fxFlare;
+    [SerializeField] LayerMask _layerBuilding;    
+    [SerializeField] LayerMask _defaultLayer;
 
     float _horizontal = 0f;
     float _vertical = 0f;
@@ -24,11 +26,20 @@ public class PlayerController : MonoBehaviour
     BasicEvent _tmpEvent;
     GameObject _placeholderBuilding;
 
+    // @TODO: refactor to string class
+    static string LIMIT_BUILDINGS_REACHED = "Cannot build, maximum buildings reached";
+    static string NOT_AVAILABLE_TO_BUILD = "Zone occupied, build in other place";
+
 	private void Start()
 	{
         _tmpEvent = new BasicEvent();
         _running = _offline = _hitBuildDetect = false;
         EventManager.StartListening<BasicEvent>("OnExitContextMenu", OnExitContextMenu);
+	}
+
+	private void OnDestroy()
+	{
+        EventManager.StopListening<BasicEvent>("OnExitContextMenu", OnExitContextMenu);
 	}
 
 	void FixedUpdate()
@@ -49,6 +60,12 @@ public class PlayerController : MonoBehaviour
                 _offline = true;
                 _contextMenu.EnterContextMenu();
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && _placeholderBuilding)
+        {
+            // @TODO: refactor to cheaper options
+           Destroy(_placeholderBuilding);
         }
 
         _horizontal = Input.GetAxis("Horizontal");
@@ -98,13 +115,19 @@ public class PlayerController : MonoBehaviour
     {
         // @TODO: refactor to cheaper options
         Destroy(_placeholderBuilding);
-        // @TODO: refactor to cheaper options
-        _fxFlare.SetActive(true);
+ 
         GameManager.instance._currentBuildings++;
         _offline = true;
         _anim.SetBool("Build", true);
         var spawnBuildingPosition = _trans.position + _trans.forward * _distanceBuildCheck;
         Instantiate(buildings[0], spawnBuildingPosition, Quaternion.AngleAxis(Random.Range(0, 359), Vector3.up));
+
+        // Little animation to get worker close building
+        gameObject.layer = _layerBuilding.value;
+        _trans.position += _trans.forward;
+
+        // @TODO: refactor to cheaper options
+        _fxFlare.SetActive(true);
 
         yield return Yielders.Get(Building.buildTime);
 
@@ -112,8 +135,13 @@ public class PlayerController : MonoBehaviour
         EventManager.TriggerEvent("OnNewBuilding", _tmpEvent);
         _offline = false;
         _anim.SetBool("Build", false);
+
         // @TODO: refactor to cheaper options
         _fxFlare.SetActive(false);
+
+        // Little animation to restore worker position
+        _trans.position -= _trans.forward * 2;
+        gameObject.layer = _defaultLayer.value;
     }
 
     void OnExitContextMenu(BasicEvent e)
@@ -132,6 +160,8 @@ public class PlayerController : MonoBehaviour
         else
         {
             // @TODO: report user building limit reached...
+            _tmpEvent.Data = LIMIT_BUILDINGS_REACHED;
+            EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
         }
     }
 
@@ -146,6 +176,8 @@ public class PlayerController : MonoBehaviour
         else
         {
             // @TODO: report user not available zone...
+            _tmpEvent.Data = NOT_AVAILABLE_TO_BUILD;
+            EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
         }
     }
 }

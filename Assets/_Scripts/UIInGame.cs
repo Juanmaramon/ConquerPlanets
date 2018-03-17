@@ -7,16 +7,26 @@ public class UIInGame : MonoBehaviour
 {
     [SerializeField] Text _numberBuilds;
     [SerializeField] Image _buildingsSlider;
+    [SerializeField] GameObject _bottomBlock;
+    [SerializeField] Text _explanation;
 
-    float sliderResetTime = 2f;
+    float _waitTime = 2f;
 
 	private void Start()
 	{
         EventManager.StartListening<BasicEvent>("OnNewBuilding", OnNewBuilding);
         EventManager.StartListening<BasicEvent>("OnProgressBuilding", OnProgressBuilding);
+        EventManager.StartListening<BasicEvent>("OnNewExplanation", OnNewExplanation);
 	}
 
-    void OnNewBuilding(BasicEvent e)
+	private void OnDestroy()
+	{
+        EventManager.StopListening<BasicEvent>("OnNewBuilding", OnNewBuilding);
+        EventManager.StopListening<BasicEvent>("OnProgressBuilding", OnProgressBuilding);
+        EventManager.StopListening<BasicEvent>("OnNewExplanation", OnNewExplanation);	    
+	}
+
+	void OnNewBuilding(BasicEvent e)
     {
         int currentBuildings = (int)e.Data;
         _numberBuilds.text = currentBuildings.ToString();
@@ -30,7 +40,25 @@ public class UIInGame : MonoBehaviour
 
     IEnumerator ResetBuildingsSlider()
     {
-        yield return Yielders.Get(sliderResetTime);
+        yield return Yielders.Get(_waitTime);
         _buildingsSlider.fillAmount = 0f;
     }
+
+    void OnNewExplanation(BasicEvent e)
+    {
+        var explanation = e.Data.ToString();
+        if (!string.IsNullOrEmpty(explanation))
+        {
+            StartCoroutine(ShowNewExplanation(explanation));
+        }
+    }
+
+    IEnumerator ShowNewExplanation(string explanation)
+    {
+        _bottomBlock.SetActive(true);
+        _explanation.text = explanation;
+        yield return Yielders.Get(_waitTime);
+        _bottomBlock.SetActive(false);
+    }
+
 }

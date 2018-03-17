@@ -7,6 +7,7 @@ public class Building : MonoBehaviour
     [SerializeField] Rigidbody _rigid;
     [SerializeField] Collider _collider;
     [SerializeField] Animator _anim;
+    [SerializeField] FauxGravityBody _gravity;
     public static float buildTime = 5f;
     static float staticTime = 2f;
     static float yieldTime = 0.2f;
@@ -62,5 +63,6 @@ public class Building : MonoBehaviour
 
         // Make static
         _rigid.isKinematic = true;
+        _gravity.enabled = false;
     }
 }

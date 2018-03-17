@@ -5,6 +5,7 @@ using UnityEngine;
 public class ButtonResize : MonoBehaviour 
 {
     [SerializeField] RectTransform _trans;
+    [SerializeField] float _scales = 1.05f;
 
     Vector3 _initScale;
 
@@ -15,12 +16,12 @@ public class ButtonResize : MonoBehaviour
 
 	public void Hover()
     {
-        _trans.localScale *= 1.05f;
+        _trans.localScale *= _scales;
     }
 
     public void HoverOut()
     {
-        _trans.localScale /= 1.05f;
+        _trans.localScale /= _scales;
     }
 
     public void ResetScale()
