@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Planet
   - Fire
+  - Junk
   layers:
   - Default
   - TransparentFX

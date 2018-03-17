@@ -88,6 +88,10 @@ public class UIContextMenu : MonoBehaviour
         {
             _eventSystem.SetSelectedGameObject(_selected.gameObject);
         }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            ExitContextMenu();
+        }
     }
 
     void HoverOutButton(Selectable selected)

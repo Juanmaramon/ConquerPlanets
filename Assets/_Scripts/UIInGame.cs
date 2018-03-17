@@ -11,6 +11,7 @@ public class UIInGame : MonoBehaviour
     [SerializeField] Text _explanation;
 
     float _waitTime = 2f;
+    float _explanationTime = 4f;
 
 	private void Start()
 	{
@@ -51,13 +52,18 @@ public class UIInGame : MonoBehaviour
         {
             StartCoroutine(ShowNewExplanation(explanation));
         }
+        else
+        {
+            _explanation.text = "";
+            _bottomBlock.SetActive(false); 
+        }
     }
 
     IEnumerator ShowNewExplanation(string explanation)
     {
         _bottomBlock.SetActive(true);
         _explanation.text = explanation;
-        yield return Yielders.Get(_waitTime);
+        yield return Yielders.Get(_explanationTime);
         _bottomBlock.SetActive(false);
     }
 

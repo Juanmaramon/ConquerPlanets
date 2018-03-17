@@ -13,8 +13,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float _distanceBuildCheck = 5f;
     [SerializeField] UIContextMenu _contextMenu;
     [SerializeField] GameObject _fxFlare;
-    [SerializeField] LayerMask _layerBuilding;    
-    [SerializeField] LayerMask _defaultLayer;
+    [SerializeField] string _layerBuilding;    
+    [SerializeField] string _defaultLayer;
 
     float _horizontal = 0f;
     float _vertical = 0f;
@@ -25,15 +25,20 @@ public class PlayerController : MonoBehaviour
     RaycastHit _hitCheck;
     BasicEvent _tmpEvent;
     GameObject _placeholderBuilding;
+    bool _extract = false;
+    Transform _resourcesTrans;
+    bool _extractRotated = false;
 
     // @TODO: refactor to string class
     static string LIMIT_BUILDINGS_REACHED = "Cannot build, maximum buildings reached";
     static string NOT_AVAILABLE_TO_BUILD = "Zone occupied, build in other place";
+    static string BUILD_INSTRUCTIONS = "[Space] build, [ESC] cancel";
+    static string EXTRACT_RESOURCES = "[Space] extract resources from debris";
 
 	private void Start()
 	{
         _tmpEvent = new BasicEvent();
-        _running = _offline = _hitBuildDetect = false;
+        _running = _offline = _hitBuildDetect = _extract = _extractRotated = false;
         EventManager.StartListening<BasicEvent>("OnExitContextMenu", OnExitContextMenu);
 	}
 
@@ -53,6 +58,10 @@ public class PlayerController : MonoBehaviour
             if (_placeholderBuilding && (GameManager.instance._currentBuildings < GameManager.instance._maxBuildings))
             {
                 DoBuilding();
+            }
+            else if (_extract)
+            {
+                ExtractResources();
             }
             // Enter on context menu
             else
@@ -92,6 +101,14 @@ public class PlayerController : MonoBehaviour
 
 	void Update()
     {
+        // Currenty extracting resources, rotate towards resources
+        if (_resourcesTrans && _offline && !_extractRotated)
+        {
+            _extractRotated = true;
+            Quaternion rotation = Quaternion.LookRotation(_resourcesTrans.position - _trans.position);
+            _trans.rotation = Quaternion.Slerp(_trans.rotation, rotation, Time.deltaTime * 150f);
+        }
+
         if (_offline)
             return;
         
@@ -123,7 +140,7 @@ public class PlayerController : MonoBehaviour
         Instantiate(buildings[0], spawnBuildingPosition, Quaternion.AngleAxis(Random.Range(0, 359), Vector3.up));
 
         // Little animation to get worker close building
-        gameObject.layer = _layerBuilding.value;
+        gameObject.layer = LayerMask.NameToLayer(_layerBuilding);
         _trans.position += _trans.forward;
 
         // @TODO: refactor to cheaper options
@@ -141,7 +158,7 @@ public class PlayerController : MonoBehaviour
 
         // Little animation to restore worker position
         _trans.position -= _trans.forward * 2;
-        gameObject.layer = _defaultLayer.value;
+        gameObject.layer = LayerMask.NameToLayer(_defaultLayer);
     }
 
     void OnExitContextMenu(BasicEvent e)
@@ -156,6 +173,8 @@ public class PlayerController : MonoBehaviour
             // @TODO: refactor to cheaper options
             _placeholderBuilding = Instantiate(buildings[1], _trans);
             _placeholderBuilding.transform.position = _trans.position + _trans.forward * _distanceBuildCheck;
+            _tmpEvent.Data = BUILD_INSTRUCTIONS;
+            EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
         }
         else
         {
@@ -179,5 +198,62 @@ public class PlayerController : MonoBehaviour
             _tmpEvent.Data = NOT_AVAILABLE_TO_BUILD;
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
         }
+    }
+
+	private void OnTriggerEnter(Collider other)
+	{
+        if (other.tag == "Junk" && (_placeholderBuilding == null))
+        {
+            _tmpEvent.Data = EXTRACT_RESOURCES;
+            EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
+            _extract = true;
+            _resourcesTrans = other.transform;
+        }
+	}
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Junk" && (_placeholderBuilding == null))
+        {
+            _tmpEvent.Data = "";
+            EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
+            _extract = false;
+            _resourcesTrans = null;
+        }
+    }
+
+    void ExtractResources()
+    {
+        StartCoroutine(Extract()); 
+    }
+
+    IEnumerator Extract()
+    {
+        _extractRotated = false;
+        // @TODO: put real resources from junk
+        GameManager.instance._resources++;
+        _offline = true;
+        _anim.SetBool("Build", true);
+  
+        // Little animation to get worker close building
+        gameObject.layer = LayerMask.NameToLayer(_layerBuilding);
+        _trans.position += _trans.forward;
+ 
+        // @TODO: refactor to cheaper options
+        _fxFlare.SetActive(true);
+
+        yield return Yielders.Get(Building.buildTime);
+
+        _tmpEvent.Data = GameManager.instance._resources;
+        EventManager.TriggerEvent("OnNewResources", _tmpEvent);
+        _offline = false;
+        _anim.SetBool("Build", false);
+
+        // @TODO: refactor to cheaper options
+        _fxFlare.SetActive(false);
+
+        // Little animation to restore worker position
+        _trans.position -= _trans.forward;
+        gameObject.layer = LayerMask.NameToLayer(_defaultLayer);
     }
 }
