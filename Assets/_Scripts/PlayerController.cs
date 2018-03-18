@@ -178,7 +178,6 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // @TODO: report user building limit reached...
             _tmpEvent.Data = LIMIT_BUILDINGS_REACHED;
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
         }
@@ -194,7 +193,6 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            // @TODO: report user not available zone...
             _tmpEvent.Data = NOT_AVAILABLE_TO_BUILD;
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
         }
@@ -231,7 +229,7 @@ public class PlayerController : MonoBehaviour
     {
         _extractRotated = false;
         // @TODO: put real resources from junk
-        GameManager.instance._resources++;
+        GameManager.instance._resources += _resourcesTrans.GetComponent<Junk>().ConsumeJunk();
         _offline = true;
         _anim.SetBool("Build", true);
   
@@ -243,6 +241,8 @@ public class PlayerController : MonoBehaviour
         _fxFlare.SetActive(true);
 
         yield return Yielders.Get(Building.buildTime);
+
+        _extract = false;
 
         _tmpEvent.Data = GameManager.instance._resources;
         EventManager.TriggerEvent("OnNewResources", _tmpEvent);

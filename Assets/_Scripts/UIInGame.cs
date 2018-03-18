@@ -9,6 +9,8 @@ public class UIInGame : MonoBehaviour
     [SerializeField] Image _buildingsSlider;
     [SerializeField] GameObject _bottomBlock;
     [SerializeField] Text _explanation;
+    [SerializeField] Image _extractSlider;
+    [SerializeField] Text _numberResources;
 
     float _waitTime = 2f;
     float _explanationTime = 4f;
@@ -18,13 +20,17 @@ public class UIInGame : MonoBehaviour
         EventManager.StartListening<BasicEvent>("OnNewBuilding", OnNewBuilding);
         EventManager.StartListening<BasicEvent>("OnProgressBuilding", OnProgressBuilding);
         EventManager.StartListening<BasicEvent>("OnNewExplanation", OnNewExplanation);
+        EventManager.StartListening<BasicEvent>("OnProgressExtract", OnProgressExtract);
+        EventManager.StartListening<BasicEvent>("OnNewResources", OnNewResources);
 	}
 
 	private void OnDestroy()
 	{
         EventManager.StopListening<BasicEvent>("OnNewBuilding", OnNewBuilding);
         EventManager.StopListening<BasicEvent>("OnProgressBuilding", OnProgressBuilding);
-        EventManager.StopListening<BasicEvent>("OnNewExplanation", OnNewExplanation);	    
+        EventManager.StopListening<BasicEvent>("OnNewExplanation", OnNewExplanation);
+        EventManager.StartListening<BasicEvent>("OnProgressExtract", OnProgressExtract);
+        EventManager.StartListening<BasicEvent>("OnNewResources", OnNewResources);
 	}
 
 	void OnNewBuilding(BasicEvent e)
@@ -34,15 +40,33 @@ public class UIInGame : MonoBehaviour
         StartCoroutine(ResetBuildingsSlider());
     }
 
+    void OnNewResources(BasicEvent e)
+    {
+        int currentResources = (int)e.Data;
+        _numberResources.text = currentResources.ToString();
+        StartCoroutine(ResetResourcesSlider());       
+    }
+
     void OnProgressBuilding(BasicEvent e)
     {
         _buildingsSlider.fillAmount = (float)e.Data;        
+    }
+
+    void OnProgressExtract(BasicEvent e)
+    {
+        _extractSlider.fillAmount = (float)e.Data;
     }
 
     IEnumerator ResetBuildingsSlider()
     {
         yield return Yielders.Get(_waitTime);
         _buildingsSlider.fillAmount = 0f;
+    }
+
+    IEnumerator ResetResourcesSlider()
+    {
+        yield return Yielders.Get(_waitTime);
+        _extractSlider.fillAmount = 0f;
     }
 
     void OnNewExplanation(BasicEvent e)
