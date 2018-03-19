@@ -22,6 +22,7 @@ public class Junk : MonoBehaviour
 
 	public int[] ConsumeJunk()
     {
+        // @TODO: make animation longer as player idle time
         _anim.SetTrigger("Consumed");
   
         StartCoroutine(ExtractProcess());
