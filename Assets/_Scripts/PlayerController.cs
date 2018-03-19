@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject _fxFlare;
     [SerializeField] string _layerBuilding;    
     [SerializeField] string _defaultLayer;
+    [SerializeField] SmoothFollow _camFollow;
 
     float _horizontal = 0f;
     float _vertical = 0f;
@@ -227,9 +228,10 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Extract()
     {
-        _extractRotated = false;
+        _extractRotated = _camFollow.enabled = false;
+        var consumeReturn = _resourcesTrans.GetComponent<Junk>().ConsumeJunk();
         // @TODO: put real resources from junk
-        GameManager.instance._resources += _resourcesTrans.GetComponent<Junk>().ConsumeJunk();
+        GameManager.instance._resources += consumeReturn[0];
         _offline = true;
         _anim.SetBool("Build", true);
   
@@ -240,13 +242,12 @@ public class PlayerController : MonoBehaviour
         // @TODO: refactor to cheaper options
         _fxFlare.SetActive(true);
 
-        yield return Yielders.Get(Building.buildTime);
-
-        _extract = false;
+        yield return Yielders.Get(consumeReturn[1]);
 
         _tmpEvent.Data = GameManager.instance._resources;
         EventManager.TriggerEvent("OnNewResources", _tmpEvent);
-        _offline = false;
+        _offline = _extract = false;
+        _camFollow.enabled = true;
         _anim.SetBool("Build", false);
 
         // @TODO: refactor to cheaper options

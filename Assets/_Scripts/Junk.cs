@@ -6,7 +6,7 @@ public class Junk : MonoBehaviour
 {
     [SerializeField] int resources;
     [SerializeField] Animator _anim;
-    public static float extractTime = 5f;
+    public int extractTime = 5;
 
     float _nextExtractTime = 0f;
     float _initExtractTime = 0f;
@@ -20,13 +20,13 @@ public class Junk : MonoBehaviour
         _tmpEvent = new BasicEvent();
 	}
 
-	public int ConsumeJunk()
+	public int[] ConsumeJunk()
     {
         _anim.SetTrigger("Consumed");
   
         StartCoroutine(ExtractProcess());
 
-        return resources;
+        return new int[] { resources, extractTime };
     }
 
 	public void Destroy()
@@ -44,8 +44,10 @@ public class Junk : MonoBehaviour
             _tmpEvent.Data = (Time.time - _initExtractTime) / extractTime;
             EventManager.TriggerEvent("OnProgressExtract", _tmpEvent);
             yield return _yield;
-        }   
+        }
 
         // Consumed resource!
+
+        Destroy();
     }
 }
