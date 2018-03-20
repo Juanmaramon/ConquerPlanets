@@ -198,6 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources: 150
   _anim: {fileID: 39924385}
+  _rend: {fileID: 39924389}
   extractTime: 7
 --- !u!65 &39924384
 BoxCollider:
@@ -243,6 +244,11 @@ BoxCollider:
 --- !u!4 &39924388 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4790308013349760, guid: 75330fbd27090403189be1d7b39d7686,
+    type: 2}
+  m_PrefabInternal: {fileID: 1892184847}
+--- !u!23 &39924389 stripped
+MeshRenderer:
+  m_PrefabParentObject: {fileID: 23884057079682930, guid: 75330fbd27090403189be1d7b39d7686,
     type: 2}
   m_PrefabInternal: {fileID: 1892184847}
 --- !u!1 &54710276
@@ -645,6 +651,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources: 100
   _anim: {fileID: 187107796}
+  _rend: {fileID: 187107798}
   extractTime: 5
 --- !u!65 &187107795
 BoxCollider:
@@ -687,6 +694,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6.5, y: 1.5, z: 7}
   m_Center: {x: 0.10906576, y: 0.8796617, z: -0.14}
+--- !u!23 &187107798 stripped
+MeshRenderer:
+  m_PrefabParentObject: {fileID: 23538034782208768, guid: ce129490e870246d89e2a30c5dc6520b,
+    type: 2}
+  m_PrefabInternal: {fileID: 1355167430}
 --- !u!4 &187107799 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4784523709253036, guid: ce129490e870246d89e2a30c5dc6520b,
@@ -1134,6 +1146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources: 100
   _anim: {fileID: 380906795}
+  _rend: {fileID: 380906797}
   extractTime: 5
 --- !u!65 &380906794
 BoxCollider:
@@ -1176,6 +1189,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6.5, y: 1.5, z: 7}
   m_Center: {x: 0.10906576, y: 0.8796617, z: -0.14}
+--- !u!23 &380906797 stripped
+MeshRenderer:
+  m_PrefabParentObject: {fileID: 23538034782208768, guid: ce129490e870246d89e2a30c5dc6520b,
+    type: 2}
+  m_PrefabInternal: {fileID: 140771154}
 --- !u!4 &380906798 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4784523709253036, guid: ce129490e870246d89e2a30c5dc6520b,
@@ -1510,13 +1528,13 @@ MonoBehaviour:
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 10
+    m_MinSize: 9
     m_MaxSize: 14
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 
 --- !u!222 &454093055
@@ -1554,6 +1572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources: 250
   _anim: {fileID: 470804914}
+  _rend: {fileID: 470804916}
   extractTime: 10
 --- !u!65 &470804913
 BoxCollider:
@@ -1596,6 +1615,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 8, y: 1.5, z: 7}
   m_Center: {x: -0.27, y: 0.8796617, z: -0.25}
+--- !u!23 &470804916 stripped
+MeshRenderer:
+  m_PrefabParentObject: {fileID: 23989945755168942, guid: 5ad9aaa6a3c7040b1a65a01844821c0b,
+    type: 2}
+  m_PrefabInternal: {fileID: 397492720}
 --- !u!4 &470804917 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4964046033907994, guid: 5ad9aaa6a3c7040b1a65a01844821c0b,
@@ -1764,6 +1788,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources: 150
   _anim: {fileID: 593918501}
+  _rend: {fileID: 0}
   extractTime: 7
 --- !u!65 &593918500
 BoxCollider:
@@ -2098,6 +2123,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources: 100
   _anim: {fileID: 712867765}
+  _rend: {fileID: 712867767}
   extractTime: 5
 --- !u!65 &712867764
 BoxCollider:
@@ -2140,6 +2166,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6.5, y: 1.5, z: 7}
   m_Center: {x: 0.10906576, y: 0.8796617, z: -0.14}
+--- !u!23 &712867767 stripped
+MeshRenderer:
+  m_PrefabParentObject: {fileID: 23538034782208768, guid: ce129490e870246d89e2a30c5dc6520b,
+    type: 2}
+  m_PrefabInternal: {fileID: 250811640}
 --- !u!4 &712867768 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4784523709253036, guid: ce129490e870246d89e2a30c5dc6520b,
@@ -2444,6 +2475,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources: 250
   _anim: {fileID: 868821649}
+  _rend: {fileID: 868821651}
   extractTime: 10
 --- !u!65 &868821648
 BoxCollider:
@@ -2486,6 +2518,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 8, y: 1.5, z: 7}
   m_Center: {x: -0.27, y: 0.8796617, z: -0.25}
+--- !u!23 &868821651 stripped
+MeshRenderer:
+  m_PrefabParentObject: {fileID: 23989945755168942, guid: 5ad9aaa6a3c7040b1a65a01844821c0b,
+    type: 2}
+  m_PrefabInternal: {fileID: 1301659318}
 --- !u!4 &868821652 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4964046033907994, guid: 5ad9aaa6a3c7040b1a65a01844821c0b,
@@ -2594,7 +2631,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.7197376, y: 0.96148384}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5, y: 2.5}
+  m_AnchoredPosition: {x: 5, y: 2.4999924}
   m_SizeDelta: {x: 10, y: 9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &966849218
@@ -2796,6 +2833,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources: 250
   _anim: {fileID: 1023162005}
+  _rend: {fileID: 1023162008}
   extractTime: 10
 --- !u!95 &1023162005
 Animator:
@@ -2838,6 +2876,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 8, y: 1.5, z: 7}
   m_Center: {x: -0.27, y: 0.8796617, z: -0.25}
+--- !u!23 &1023162008 stripped
+MeshRenderer:
+  m_PrefabParentObject: {fileID: 23989945755168942, guid: 5ad9aaa6a3c7040b1a65a01844821c0b,
+    type: 2}
+  m_PrefabInternal: {fileID: 1023162001}
 --- !u!1 &1056781267
 GameObject:
   m_ObjectHideFlags: 0
@@ -2959,10 +3002,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources: 100
   _anim: {fileID: 1147981840}
+  _rend: {fileID: 1147981843}
   extractTime: 5
 --- !u!4 &1147981842 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4784523709253036, guid: ce129490e870246d89e2a30c5dc6520b,
+    type: 2}
+  m_PrefabInternal: {fileID: 1310996970}
+--- !u!23 &1147981843 stripped
+MeshRenderer:
+  m_PrefabParentObject: {fileID: 23538034782208768, guid: ce129490e870246d89e2a30c5dc6520b,
     type: 2}
   m_PrefabInternal: {fileID: 1310996970}
 --- !u!65 &1147981844
@@ -4332,6 +4381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources: 150
   _anim: {fileID: 1796302150}
+  _rend: {fileID: 1796302154}
   extractTime: 7
 --- !u!95 &1796302150
 Animator:
@@ -4379,6 +4429,11 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 5.161421, y: 1.7023599, z: 2.3177457}
   m_Center: {x: -0.38993126, y: 0.95316494, z: 1.1734242}
+--- !u!23 &1796302154 stripped
+MeshRenderer:
+  m_PrefabParentObject: {fileID: 23884057079682930, guid: 75330fbd27090403189be1d7b39d7686,
+    type: 2}
+  m_PrefabInternal: {fileID: 1702125546}
 --- !u!1 &1827576243
 GameObject:
   m_ObjectHideFlags: 0
@@ -5183,6 +5238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resources: 150
   _anim: {fileID: 2109797621}
+  _rend: {fileID: 2109797625}
   extractTime: 7
 --- !u!65 &2109797620
 BoxCollider:
@@ -5228,5 +5284,10 @@ BoxCollider:
 --- !u!4 &2109797624 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4895649498244922, guid: 37b7aca22a63b4251b58ddee65b6d5e0,
+    type: 2}
+  m_PrefabInternal: {fileID: 1878383042}
+--- !u!23 &2109797625 stripped
+MeshRenderer:
+  m_PrefabParentObject: {fileID: 23458996046303454, guid: 37b7aca22a63b4251b58ddee65b6d5e0,
     type: 2}
   m_PrefabInternal: {fileID: 1878383042}

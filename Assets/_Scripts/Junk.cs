@@ -6,6 +6,7 @@ public class Junk : MonoBehaviour
 {
     [SerializeField] int resources;
     [SerializeField] Animator _anim;
+    [SerializeField] Renderer _rend;
     public int extractTime = 5;
 
     float _nextExtractTime = 0f;
@@ -13,6 +14,7 @@ public class Junk : MonoBehaviour
     BasicEvent _tmpEvent;
     WaitForSeconds _yield;
     static float yieldTime = 0.2f;
+
 
 	private void Start()
 	{
@@ -22,7 +24,7 @@ public class Junk : MonoBehaviour
 
 	public int[] ConsumeJunk()
     {
-        // @TODO: make animation longer as player idle time
+        _rend.material.SetFloat("_Mode", 2.0f);
         _anim.SetTrigger("Consumed");
   
         StartCoroutine(ExtractProcess());
