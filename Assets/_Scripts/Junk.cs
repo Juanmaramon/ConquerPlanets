@@ -24,7 +24,15 @@ public class Junk : MonoBehaviour
 
 	public int[] ConsumeJunk()
     {
-        _rend.material.SetFloat("_Mode", 2.0f);
+        Material _mat = _rend.material;
+        _mat.SetFloat("_Mode", 2.0f);
+        _mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+        _mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+        _mat.SetInt("_ZWrite", 0);
+        _mat.DisableKeyword("_ALPHATEST_ON");
+        _mat.EnableKeyword("_ALPHABLEND_ON");
+        _mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+        _mat.renderQueue = 3000;
         _anim.SetTrigger("Consumed");
   
         StartCoroutine(ExtractProcess());

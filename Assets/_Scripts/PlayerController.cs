@@ -30,6 +30,9 @@ public class PlayerController : MonoBehaviour
     Transform _resourcesTrans;
     bool _extractRotated = false;
 
+    // @TODO: const file with static values
+    public static int BUILDING_RESOURCES = 100;
+
     // @TODO: refactor to string class
     static string LIMIT_BUILDINGS_REACHED = "Cannot build, maximum buildings reached";
     static string NOT_AVAILABLE_TO_BUILD = "Zone occupied, build in other place";
@@ -59,6 +62,11 @@ public class PlayerController : MonoBehaviour
             if (_placeholderBuilding && (GameManager.instance._currentBuildings < GameManager.instance._maxBuildings))
             {
                 DoBuilding();
+            }
+            else if (_placeholderBuilding && (GameManager.instance._currentBuildings >= GameManager.instance._maxBuildings))
+            {
+                // @TODO: report user max buldings reached
+
             }
             else if (_extract)
             {
@@ -160,6 +168,11 @@ public class PlayerController : MonoBehaviour
         // Little animation to restore worker position
         _trans.position -= _trans.forward * 2;
         gameObject.layer = LayerMask.NameToLayer(_defaultLayer);
+
+        // UI refresh
+        GameManager.instance._resources -= BUILDING_RESOURCES;
+        _tmpEvent.Data = GameManager.instance._resources;
+        EventManager.TriggerEvent("OnNewResources", _tmpEvent);
     }
 
     void OnExitContextMenu(BasicEvent e)

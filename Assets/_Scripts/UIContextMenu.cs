@@ -13,9 +13,11 @@ public class UIContextMenu : MonoBehaviour
 
     int _idxSelected = 0;
     float _waitIdleTime = 2f;
+    float _waitActiveTime = 0.2f;
     bool _useArrowKeys = false;
     EventSystem _eventSystem;
     Selectable _firstSelected;
+    bool _active = false;
 
     // @TODO: refactor to string class
     static string[] _explanationsSelected = { 
@@ -23,8 +25,8 @@ public class UIContextMenu : MonoBehaviour
         "Turrets can defend places statically", 
         "THE RAY it's a powerfull weapon",
         "Exits this menu"};
-
     static string _idleArrowExplanation = "Use arrow keys or A/D to select what to do";
+    static string _notEnoughtResources = "<color=#ff0000ff>Not enought resources</color>";
 
 	private void Awake()
 	{
@@ -39,6 +41,7 @@ public class UIContextMenu : MonoBehaviour
         EventManager.TriggerEvent("OnExitContextMenu");
         _explanationSelected.text = "";
         _contextMenu.SetActive(false);
+        _active = false;
     }
 
     public void EnterContextMenu()
@@ -52,6 +55,7 @@ public class UIContextMenu : MonoBehaviour
         _anim.SetTrigger("Open");
 
         StartCoroutine(ShowIdleExplanation());
+        StartCoroutine(ActiveMenu());
     }
 
     void Update()
@@ -84,8 +88,18 @@ public class UIContextMenu : MonoBehaviour
                 _explanationSelected.text = _explanationsSelected[_idxSelected];
             }
         }
-        else if (Input.GetKeyDown("space"))
+        else if (Input.GetKeyDown("space") && _active)
         {
+            // Don't show explanation about UI navigation
+            _useArrowKeys = true;
+            // Check resources
+            if ((_selected.name == "Buildings") && (GameManager.instance._resources < PlayerController.BUILDING_RESOURCES))
+            {
+                _explanationSelected.text = _notEnoughtResources;
+                return; 
+            }
+
+            // Active button
             _eventSystem.SetSelectedGameObject(_selected.gameObject);
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
@@ -112,5 +126,11 @@ public class UIContextMenu : MonoBehaviour
         // If player don't use arrow keys, explain it
         if (!_useArrowKeys)
             _explanationSelected.text = _idleArrowExplanation;
+    }
+
+    IEnumerator ActiveMenu()
+    {
+        yield return Yielders.Get(_waitActiveTime);
+        _active = true;
     }
 }

@@ -8,7 +8,7 @@ public class GameManager : Singleton<GameManager>
     public int _maxBuildings;
     public int _currentBuildings;
     public GameObject[] _junks;
-    public int _resources = 0;
+    public int _resources = 100;
 
     static int _numberJunks = 5;
     int _activeJunk;
@@ -18,6 +18,8 @@ public class GameManager : Singleton<GameManager>
 
 	new void Awake () 
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
         base.Awake();
         DontDestroyOnLoad(gameObject);
 
