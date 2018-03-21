@@ -10,6 +10,7 @@ public class UIContextMenu : MonoBehaviour
     [SerializeField] Animator _anim;
     [SerializeField] Selectable _selected;
     [SerializeField] Text _explanationSelected;
+    [SerializeField] PlayerController _player;
 
     int _idxSelected = 0;
     float _waitIdleTime = 2f;
@@ -40,16 +41,17 @@ public class UIContextMenu : MonoBehaviour
         _eventSystem.SetSelectedGameObject(null);
         EventManager.TriggerEvent("OnExitContextMenu");
         _explanationSelected.text = "";
-        _contextMenu.SetActive(false);
         _active = false;
+        _contextMenu.SetActive(false);
     }
 
     public void EnterContextMenu()
     {
+        _contextMenu.SetActive(true);
+        _active = false;
         _idxSelected = 0;
         _useArrowKeys = false;
         _explanationSelected.text = _explanationsSelected[_idxSelected];
-        _contextMenu.SetActive(true);
         _selected = _firstSelected;
         HoverButton(_selected);
         _anim.SetTrigger("Open");
@@ -88,19 +90,32 @@ public class UIContextMenu : MonoBehaviour
                 _explanationSelected.text = _explanationsSelected[_idxSelected];
             }
         }
-        else if (Input.GetKeyDown("space") && _active)
+        else if (Input.GetKeyDown("space"))
         {
             // Don't show explanation about UI navigation
-            _useArrowKeys = true;
+            //_useArrowKeys = true;
             // Check resources
-            if ((_selected.name == "Buildings") && (GameManager.instance._resources < PlayerController.BUILDING_RESOURCES))
-            {
-                _explanationSelected.text = _notEnoughtResources;
-                return; 
-            }
-
+            if (_active)
+                switch (_selected.name)
+                {
+                    case "Buildings":
+                        if (GameManager.instance._resources < PlayerController.BUILDING_RESOURCES)
+                        {
+                            _explanationSelected.text = _notEnoughtResources;
+                            return;
+                        }
+                        else
+                        {
+                            _player.StartMakeBuilding();
+                            ExitContextMenu();
+                        }
+                        break;
+                    case "ExitContextMenu":
+                        ExitContextMenu();
+                        break;
+                }
             // Active button
-            _eventSystem.SetSelectedGameObject(_selected.gameObject);
+            //_eventSystem.SetSelectedGameObject(_selected.gameObject);
         }
         else if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -131,6 +146,7 @@ public class UIContextMenu : MonoBehaviour
     IEnumerator ActiveMenu()
     {
         yield return Yielders.Get(_waitActiveTime);
+
         _active = true;
     }
 }

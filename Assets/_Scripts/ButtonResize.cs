@@ -9,7 +9,7 @@ public class ButtonResize : MonoBehaviour
 
     Vector3 _initScale;
 
-	private void Start()
+	private void Awake()
 	{
         _initScale = _trans.localScale;
 	}
@@ -21,7 +21,7 @@ public class ButtonResize : MonoBehaviour
 
     public void HoverOut()
     {
-        _trans.localScale /= _scales;
+        _trans.localScale = _initScale;
     }
 
     public void ResetScale()
