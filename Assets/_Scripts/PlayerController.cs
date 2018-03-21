@@ -27,8 +27,13 @@ public class PlayerController : MonoBehaviour
     BasicEvent _tmpEvent;
     GameObject _placeholderBuilding;
     bool _extract = false;
+    bool _train = false;
     Transform _resourcesTrans;
+    Building _trainingBunker;
     bool _extractRotated = false;
+    Vector3 _yRotation;
+    Quaternion _deltaRotation;
+    Quaternion _targetRotation;
 
     // @TODO: const file with static values
     public static int BUILDING_RESOURCES = 100;
@@ -38,6 +43,7 @@ public class PlayerController : MonoBehaviour
     static string NOT_AVAILABLE_TO_BUILD = "Zone occupied, build in other place";
     static string BUILD_INSTRUCTIONS = "[Space] build, [ESC] cancel";
     static string EXTRACT_RESOURCES = "[Space] extract resources from debris";
+    static string TRAIN_SOLDIERS = "[Space] train soldiers";
 
 	private void Start()
 	{
@@ -55,37 +61,7 @@ public class PlayerController : MonoBehaviour
 	{
         if (_offline)
             return;
-
-        if (Input.GetKeyDown("space"))
-        {
-            // Now real construction
-            if (_placeholderBuilding && (GameManager.instance._currentBuildings < GameManager.instance._maxBuildings))
-            {
-                DoBuilding();
-            }
-            else if (_placeholderBuilding && (GameManager.instance._currentBuildings >= GameManager.instance._maxBuildings))
-            {
-                // @TODO: report user max buldings reached
-
-            }
-            else if (_extract)
-            {
-                ExtractResources();
-            }
-            // Enter on context menu
-            else
-            {
-                _offline = true;
-                _contextMenu.EnterContextMenu();
-            }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape) && _placeholderBuilding)
-        {
-            // @TODO: refactor to cheaper options
-           Destroy(_placeholderBuilding);
-        }
-
+        
         _horizontal = Input.GetAxis("Horizontal");
         _vertical = /*(_horizontal != 0f) ? 0 :*/ Input.GetAxis("Vertical");
 
@@ -95,10 +71,10 @@ public class PlayerController : MonoBehaviour
 
         _rigid.MovePosition(_rigid.position + _trans.TransformDirection(_moveDir) * speed * Time.fixedDeltaTime);
 
-        Vector3 yRotation = Vector3.up * _horizontal * rotationSpeed * Time.fixedDeltaTime;
-        Quaternion deltaRotation = Quaternion.Euler(yRotation);
-        Quaternion targetRotation = _rigid.rotation * deltaRotation;
-        _rigid.MoveRotation(Quaternion.Slerp(_rigid.rotation, targetRotation, 150f * Time.deltaTime));
+        _yRotation = Vector3.up * _horizontal * rotationSpeed * Time.fixedDeltaTime;
+        _deltaRotation = Quaternion.Euler(_yRotation);
+        _targetRotation = _rigid.rotation * _deltaRotation;
+        _rigid.MoveRotation(Quaternion.Slerp(_rigid.rotation, _targetRotation, 150f * Time.deltaTime));
     }
 
 	private void OnDrawGizmos()
@@ -120,7 +96,46 @@ public class PlayerController : MonoBehaviour
 
         if (_offline)
             return;
-        
+
+        // @TODO: refactor actions with a finite state machine!!
+        if (Input.GetKeyDown("space"))
+        {
+            // Now real construction
+            if (_placeholderBuilding && (GameManager.instance._currentBuildings < GameManager.instance._maxBuildings))
+            {
+                DoBuilding();
+            }
+            else if (_placeholderBuilding && (GameManager.instance._currentBuildings >= GameManager.instance._maxBuildings))
+            {
+                // @TODO: report user max buldings reached
+
+            }
+            else if (_extract)
+            {
+                ExtractResources();
+            }
+            else if (_train)
+            {
+                if (_trainingBunker.CanTrain())
+                    _trainingBunker.Train();
+
+                _train = false;
+                _trainingBunker = null;
+            }
+            // Enter on context menu
+            else
+            {
+                _offline = true;
+                _contextMenu.EnterContextMenu();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape) && _placeholderBuilding)
+        {
+            // @TODO: refactor to cheaper options
+            Destroy(_placeholderBuilding);
+        }
+
         // Update animation state
         if (_moveDir != Vector3.zero && !_running)
         {
@@ -221,6 +236,13 @@ public class PlayerController : MonoBehaviour
             _extract = true;
             _resourcesTrans = other.transform;
         }
+        else if (other.tag == "Bunker" && (_placeholderBuilding == null))
+        {
+            _tmpEvent.Data = TRAIN_SOLDIERS;
+            EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
+            _train = true;
+            _trainingBunker = other.GetComponent<Building>();
+        }
 	}
 
     private void OnTriggerExit(Collider other)
@@ -231,6 +253,12 @@ public class PlayerController : MonoBehaviour
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
             _extract = false;
             _resourcesTrans = null;
+        }
+        else if (other.tag == "Bunker" && (_placeholderBuilding == null))
+        {
+            _train = false;
+            _tmpEvent.Data = "";
+            EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
         }
     }
 

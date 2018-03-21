@@ -9,8 +9,11 @@ public class UIInGame : MonoBehaviour
     [SerializeField] Image _buildingsSlider;
     [SerializeField] GameObject _bottomBlock;
     [SerializeField] Text _explanation;
-    [SerializeField] Image _extractSlider;
+    [SerializeField] Image _progressSlider;
     [SerializeField] Text _numberResources;
+    [SerializeField] Image _progressIcon;
+    [SerializeField] Sprite _iconResources;
+    [SerializeField] Sprite _iconSoldiers;
 
     float _waitTime = 2f;
     float _explanationTime = 4f;
@@ -21,7 +24,10 @@ public class UIInGame : MonoBehaviour
         EventManager.StartListening<BasicEvent>("OnProgressBuilding", OnProgressBuilding);
         EventManager.StartListening<BasicEvent>("OnNewExplanation", OnNewExplanation);
         EventManager.StartListening<BasicEvent>("OnProgressExtract", OnProgressExtract);
+        EventManager.StartListening<BasicEvent>("OnProgressSoldier", OnProgressSomething);
         EventManager.StartListening<BasicEvent>("OnNewResources", OnNewResources);
+        EventManager.StartListening<BasicEvent>("OnProgressChange", OnProgressChange);
+
 	}
 
 	private void OnDestroy()
@@ -29,8 +35,10 @@ public class UIInGame : MonoBehaviour
         EventManager.StopListening<BasicEvent>("OnNewBuilding", OnNewBuilding);
         EventManager.StopListening<BasicEvent>("OnProgressBuilding", OnProgressBuilding);
         EventManager.StopListening<BasicEvent>("OnNewExplanation", OnNewExplanation);
-        EventManager.StartListening<BasicEvent>("OnProgressExtract", OnProgressExtract);
-        EventManager.StartListening<BasicEvent>("OnNewResources", OnNewResources);
+        EventManager.StopListening<BasicEvent>("OnProgressExtract", OnProgressExtract);
+        EventManager.StopListening<BasicEvent>("OnProgressSoldier", OnProgressSomething);
+        EventManager.StopListening<BasicEvent>("OnNewResources", OnNewResources);
+        EventManager.StopListening<BasicEvent>("OnProgressChange", OnProgressChange);
 	}
 
 	void OnNewBuilding(BasicEvent e)
@@ -52,21 +60,34 @@ public class UIInGame : MonoBehaviour
         _buildingsSlider.fillAmount = (float)e.Data;        
     }
 
+    void OnProgressSomething(BasicEvent e)
+    {
+        ProgressSlider((float)e.Data);
+    }
+
     void OnProgressExtract(BasicEvent e)
     {
-        _extractSlider.fillAmount = (float)e.Data;
+        ProgressSlider((float)e.Data);
     }
 
-    IEnumerator ResetBuildingsSlider()
+    void ProgressSlider(float f)
     {
-        yield return Yielders.Get(_waitTime);
-        _buildingsSlider.fillAmount = 0f;
+        _progressSlider.fillAmount = f;
     }
 
-    IEnumerator ResetResourcesSlider()
+    void OnProgressChange(BasicEvent e)
     {
-        yield return Yielders.Get(_waitTime);
-        _extractSlider.fillAmount = 0f;
+        _progressSlider.fillAmount = 0f;
+        if (e.Data.ToString() == Building.SOLDIER)
+        {
+            _numberResources.enabled = false;
+            _progressIcon.sprite = _iconSoldiers;
+        }
+        else
+        {
+            _numberResources.enabled = true;
+            _progressIcon.sprite = _iconResources;
+        }
     }
 
     void OnNewExplanation(BasicEvent e)
@@ -79,8 +100,20 @@ public class UIInGame : MonoBehaviour
         else
         {
             _explanation.text = "";
-            _bottomBlock.SetActive(false); 
+            _bottomBlock.SetActive(false);
         }
+    }
+
+    IEnumerator ResetBuildingsSlider()
+    {
+        yield return Yielders.Get(_waitTime);
+        _buildingsSlider.fillAmount = 0f;
+    }
+
+    IEnumerator ResetResourcesSlider()
+    {
+        yield return Yielders.Get(_waitTime);
+        _progressSlider.fillAmount = 0f;
     }
 
     IEnumerator ShowNewExplanation(string explanation)
