@@ -281,7 +281,7 @@ MonoBehaviour:
   _smoke: {fileID: 1310624059829774}
   _boxCollider: {fileID: 65531470767350618}
   _soldier: {fileID: 1252878608961982, guid: 7095a62019745480f8df95fb608aae06, type: 2}
-  _spawnSoldiderDistance: 1
+  _spawnSoldiderDistance: 3
   _trans: {fileID: 4220991827301900}
 --- !u!198 &198277595170894092
 ParticleSystem:
