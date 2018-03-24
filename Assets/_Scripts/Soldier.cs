@@ -38,8 +38,24 @@ public class Soldier : PathManager
         _rigid.isKinematic = true;
         _col.isTrigger = true;
         _anim.SetTrigger("Run");
-        NavigateTo(transform.position + transform.forward * 10f);
-       // Debug.DrawRay(_trans.position, transform.forward * 10f, Color.green, Mathf.Infinity);
+        switch (rand)
+        {
+            default:
+            case 1:
+                NavigateTo(_trans.position + _trans.forward * 10f);
+                break;
+            case 2:
+                NavigateTo(_trans.position + _trans.right * 10f);
+                break;
+            case 3:
+                NavigateTo(_trans.position - _trans.forward * 10f);
+                break;
+            case 4:
+                NavigateTo(_trans.position - _trans.right * 10f);
+                break;
+        }
+                
+        //Debug.DrawRay(_trans.position, transform.forward * 10f, Color.green, Mathf.Infinity);
  	}
 
 	private new void Update()

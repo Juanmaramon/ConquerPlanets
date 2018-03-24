@@ -23,11 +23,12 @@ public abstract class PathManager : MonoBehaviour
         pathPlanned = true;
         currentPath = new Stack<Vector3>();
         var currentNode = FindClosestWaypoint(_trans.position);
-        //Debug.Log(currentNode);
         var endNode = FindClosestWaypoint(destination);
-        //Debug.Log(endNode);
         if (currentNode == null || endNode == null || currentNode == endNode)
+        {
+            Stop();
             return;
+        }
         var openList = new SortedList<float, Waypoint>();
         var closedList = new List<Waypoint>();
         openList.Add(0, currentNode);
