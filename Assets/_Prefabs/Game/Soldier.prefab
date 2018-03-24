@@ -873,7 +873,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 5
-  _chkDst: 0.5
+  _chkDst: 0.02
   _trans: {fileID: 4055015618870038}
   _speed: 5
   _anim: {fileID: 95902336060898720}

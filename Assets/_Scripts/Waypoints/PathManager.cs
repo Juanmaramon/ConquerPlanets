@@ -91,9 +91,7 @@ public abstract class PathManager : MonoBehaviour
                     if (moveTimeCurrent > moveTimeTotal)
                         moveTimeCurrent = moveTimeTotal;
                     _trans.position = Vector3.Lerp(currentWaypointPosition, currentPath.Peek(), moveTimeCurrent / moveTimeTotal);
-
-                    _qTo = Quaternion.LookRotation(currentPath.Peek());
-                    _trans.rotation = Quaternion.Slerp(_trans.rotation, _qTo, Time.deltaTime * _speed);
+                    _trans.LookAt(currentPath.Peek(), _trans.up);
                 }
                 else
                 {
