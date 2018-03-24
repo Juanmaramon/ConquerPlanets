@@ -104,7 +104,8 @@ public class Building : MonoBehaviour
 
         // Soldier trained!
         Instantiate(_soldier, _trans.position + (_trans.forward * _spawnSoldiderDistance), Quaternion.identity);
-        Debug.DrawLine(_trans.position, _trans.position + (_trans.forward * _spawnSoldiderDistance), Color.red, 999999f);
+        // @TODO: remove traces
+        //Debug.DrawLine(_trans.position, _trans.position + (_trans.forward * _spawnSoldiderDistance), Color.red, 999999f);
 
         _anim.SetBool("Training", false);
         // @TODO: cheaper option need it
