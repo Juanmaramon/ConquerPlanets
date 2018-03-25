@@ -6,17 +6,13 @@ public abstract class PathManager : MonoBehaviour
 {
     public float walkSpeed = 5.0f;
 
-    [SerializeField] protected float _chkDst;
     [SerializeField] protected Transform _trans;
-    [SerializeField] float _speed = 5f;
 
     private Stack<Vector3> currentPath;
     private Vector3 currentWaypointPosition;
     private float moveTimeTotal;
     private float moveTimeCurrent;
     protected bool pathPlanned;
-
-    Quaternion _qTo;
 
     public void NavigateTo(Vector3 destination)
     {
@@ -81,28 +77,25 @@ public abstract class PathManager : MonoBehaviour
 
     protected void Update()
     {
-        if (Time.frameCount % _chkDst == 0)
+        if (currentPath != null && currentPath.Count > 0)
         {
-            if (currentPath != null && currentPath.Count > 0)
+            if (moveTimeCurrent < moveTimeTotal)
             {
-                if (moveTimeCurrent < moveTimeTotal)
-                {
-                    moveTimeCurrent += Time.deltaTime;
-                    if (moveTimeCurrent > moveTimeTotal)
-                        moveTimeCurrent = moveTimeTotal;
-                    _trans.position = Vector3.Lerp(currentWaypointPosition, currentPath.Peek(), moveTimeCurrent / moveTimeTotal);
-                    _trans.LookAt(currentPath.Peek(), _trans.up);
-                }
+                moveTimeCurrent += Time.deltaTime;
+                if (moveTimeCurrent > moveTimeTotal)
+                    moveTimeCurrent = moveTimeTotal;
+                _trans.position = Vector3.Lerp(currentWaypointPosition, currentPath.Peek(), moveTimeCurrent / moveTimeTotal);
+                _trans.LookAt(currentPath.Peek(), _trans.up);
+            }
+            else
+            {
+                currentWaypointPosition = currentPath.Pop();
+                if (currentPath.Count == 0)
+                    Stop();
                 else
                 {
-                    currentWaypointPosition = currentPath.Pop();
-                    if (currentPath.Count == 0)
-                        Stop();
-                    else
-                    {
-                        moveTimeCurrent = 0;
-                        moveTimeTotal = (currentWaypointPosition - currentPath.Peek()).magnitude / walkSpeed;
-                    }
+                    moveTimeCurrent = 0;
+                    moveTimeTotal = (currentWaypointPosition - currentPath.Peek()).magnitude / walkSpeed;
                 }
             }
         }

@@ -161,10 +161,12 @@ public class PlayerController : MonoBehaviour
         _offline = true;
         _anim.SetBool("Build", true);
         var spawnBuildingPosition = _trans.position + _trans.forward * _distanceBuildCheck;
+
+        gameObject.layer = LayerMask.NameToLayer(_layerBuilding);
+
         Instantiate(buildings[0], spawnBuildingPosition, Quaternion.AngleAxis(Random.Range(0, 359), Vector3.up));
 
         // Little animation to get worker close building
-        gameObject.layer = LayerMask.NameToLayer(_layerBuilding);
         _trans.position += _trans.forward;
 
         // @TODO: refactor to cheaper options

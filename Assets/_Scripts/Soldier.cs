@@ -5,14 +5,8 @@ using UnityEngine;
 public class Soldier : PathManager 
 {
     [SerializeField] Animator _anim;
-    [SerializeField] Waypoints _waypoints;
     [SerializeField] Rigidbody _rigid;
     [SerializeField] CapsuleCollider _col;
-
-	private void Awake()
-	{
-        _waypoints = Waypoints.instance;
-	}
 
 	private void Start()
 	{
