@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {
-    //[SerializeField] PathManager _pathRemove;
     [SerializeField] Transform _trans;
     static int numNeighboards = 3;
     public Vector3 _position;
     public Waypoint[] neighbors = new Waypoint[numNeighboards];
-    public bool visited = false;
+//    public bool visited = false;
 
 	public Waypoint previous
 	{
@@ -23,12 +22,12 @@ public class Waypoint : MonoBehaviour
 		set;
 	}
 
-	private void Awake()
+	/*private void Awake()
 	{
         _position = transform.position;
         //_trans = transform;
         //Invoke("Process", 5f);
-	}
+	}*/
 
 	/*private void Process()
 	{
@@ -61,7 +60,7 @@ public class Waypoint : MonoBehaviour
         }
 	}*/
 
-	void OnDrawGizmos()
+	/*void OnDrawGizmos()
 	{
         if (neighbors == null)
 			return;
@@ -72,10 +71,10 @@ public class Waypoint : MonoBehaviour
                 Gizmos.DrawLine (_trans.position, neighbors[i]._position);
 		}
 
-        if (visited)
-            Gizmos.color = Color.cyan;
-        else
+        //if (visited)
+        //    Gizmos.color = Color.cyan;
+        //else
             Gizmos.color = Color.yellow;
         Gizmos.DrawSphere(_trans.position, .5f);
-	}
+	}*/
 }

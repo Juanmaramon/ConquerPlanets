@@ -30,7 +30,6 @@ public class PlayerController : MonoBehaviour
     bool _train = false;
     Transform _resourcesTrans;
     Building _trainingBunker;
-    bool _extractRotated = false;
     Vector3 _yRotation;
     Quaternion _deltaRotation;
     Quaternion _targetRotation;
@@ -48,7 +47,7 @@ public class PlayerController : MonoBehaviour
 	private void Start()
 	{
         _tmpEvent = new BasicEvent();
-        _running = _offline = _hitBuildDetect = _extract = _extractRotated = false;
+        _running = _offline = _hitBuildDetect = _extract = false;
         EventManager.StartListening<BasicEvent>("OnExitContextMenu", OnExitContextMenu);
 	}
 
@@ -77,23 +76,15 @@ public class PlayerController : MonoBehaviour
         _rigid.MoveRotation(Quaternion.Slerp(_rigid.rotation, _targetRotation, 150f * Time.deltaTime));
     }
 
-	private void OnDrawGizmos()
+	/*private void OnDrawGizmos()
 	{
         Gizmos.color = Color.cyan;
         Debug.DrawRay(_trans.position, _trans.forward * _distanceBuildCheck, Color.red);
         Gizmos.DrawWireCube(_trans.position + _trans.forward * _distanceBuildCheck, _trans.localScale);
-	}
+	}*/
 
 	void Update()
     {
-        // Currenty extracting resources, rotate towards resources
-        if (_resourcesTrans && _offline && !_extractRotated)
-        {
-            _extractRotated = true;
-            Quaternion rotation = Quaternion.LookRotation(_resourcesTrans.position - _trans.position);
-            _trans.rotation = Quaternion.Slerp(_trans.rotation, rotation, Time.deltaTime * 150f);
-        }
-
         if (_offline)
             return;
 
@@ -275,7 +266,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator Extract()
     {
-        _extractRotated = _camFollow.enabled = false;
+        _camFollow.enabled = false;
         var consumeReturn = _resourcesTrans.GetComponent<Junk>().ConsumeJunk();
         // @TODO: put real resources from junk
         GameManager.instance._resources += consumeReturn[0];
@@ -284,7 +275,8 @@ public class PlayerController : MonoBehaviour
   
         // Little animation to get worker close building
         gameObject.layer = LayerMask.NameToLayer(_layerBuilding);
-        _trans.position += _trans.forward;
+        _trans.LookAt(_resourcesTrans.position);
+        //_trans.position += _trans.forward;
  
         // @TODO: refactor to cheaper options
         _fxFlare.SetActive(true);
@@ -301,7 +293,7 @@ public class PlayerController : MonoBehaviour
         _fxFlare.SetActive(false);
 
         // Little animation to restore worker position
-        _trans.position -= _trans.forward;
+        //_trans.position -= _trans.forward;
         gameObject.layer = LayerMask.NameToLayer(_defaultLayer);
     }
 }

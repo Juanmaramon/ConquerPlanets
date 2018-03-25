@@ -9,6 +9,7 @@ public class GameManager : Singleton<GameManager>
     public int _currentBuildings;
     public GameObject[] _junks;
     public int _resources = 100;
+    public bool DEBUG;
 
     static int _numberJunks = 5;
     int _activeJunk;

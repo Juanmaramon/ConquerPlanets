@@ -42,7 +42,7 @@ public abstract class PathManager : MonoBehaviour
             }
             foreach (var neighbor in currentNode.neighbors)
             {
-                neighbor.visited = true;
+                //neighbor.visited = true;
                 if (closedList.Contains(neighbor) || openList.ContainsValue(neighbor))
                     continue;
                 neighbor.previous = currentNode;
