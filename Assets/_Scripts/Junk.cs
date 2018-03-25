@@ -67,10 +67,4 @@ public class Junk : MonoBehaviour
     {
         _base.SetActive(_active);
     }
-
-	private void OnDrawGizmos()
-	{
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(transform.position +  transform.up, .5f);
-	}
 }

@@ -110,6 +110,18 @@ public class UIContextMenu : MonoBehaviour
                             ExitContextMenu();
                         }
                         break;
+                    case "Turrets":
+                    if (GameManager.instance._resources < PlayerController.TURRET_RESOURCES)
+                        {
+                            _explanationSelected.text = _notEnoughtResources;
+                            return;
+                        }
+                        else
+                        {
+                            _player.StartMakeTurret();
+                            ExitContextMenu();
+                        }
+                        break;
                     case "ExitContextMenu":
                         ExitContextMenu();
                         break;

@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     RaycastHit _hitCheck;
     BasicEvent _tmpEvent;
     GameObject _placeholderBuilding;
+    GameObject _placeholderTurret;
     bool _extract = false;
     bool _train = false;
     Transform _resourcesTrans;
@@ -33,9 +34,11 @@ public class PlayerController : MonoBehaviour
     Vector3 _yRotation;
     Quaternion _deltaRotation;
     Quaternion _targetRotation;
+    float _offsetTurretPlaceholder = 1.5f;
 
     // @TODO: const file with static values
     public static int BUILDING_RESOURCES = 100;
+    public static int TURRET_RESOURCES = 200;
 
     // @TODO: refactor to string class
     static string LIMIT_BUILDINGS_REACHED = "Cannot build, maximum buildings reached";
@@ -138,9 +141,6 @@ public class PlayerController : MonoBehaviour
             _running = false;
             _anim.SetTrigger("Stop");
         }
-
-        if (_placeholderBuilding)
-            _placeholderBuilding.transform.position = _trans.position + _trans.forward * _distanceBuildCheck;
     }
 
     IEnumerator Build()
@@ -203,6 +203,23 @@ public class PlayerController : MonoBehaviour
             _tmpEvent.Data = LIMIT_BUILDINGS_REACHED;
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
         }
+    }
+
+    public void StartMakeTurret()
+    {
+  //      if ((GameManager.instance._currentBuildings < GameManager.instance._maxBuildings))
+  //      {
+            // @TODO: refactor to cheaper options
+            _placeholderTurret = Instantiate(buildings[3], _trans);
+            _placeholderTurret.transform.position = _trans.position + _trans.forward * _distanceBuildCheck + (_trans.up * _offsetTurretPlaceholder);
+            _tmpEvent.Data = BUILD_INSTRUCTIONS;
+            EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
+/*        }
+        else
+        {
+            _tmpEvent.Data = LIMIT_BUILDINGS_REACHED;
+            EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
+        }*/
     }
 
     void DoBuilding()
