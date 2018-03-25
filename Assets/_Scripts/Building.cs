@@ -13,6 +13,7 @@ public class Building : MonoBehaviour
     [SerializeField] GameObject _soldier;
     [SerializeField] float _spawnSoldiderDistance = 0.5f;
     [SerializeField] Transform _trans;
+    [SerializeField] GameObject _base;
     public static float buildTime = 5f;
     public static float trainTime = 5f;
     static float staticTime = 2f;
@@ -90,6 +91,7 @@ public class Building : MonoBehaviour
         _boxCollider.enabled = false;
         // @TODO: cheaper option need it
         _smoke.SetActive(true);
+        ToogleBase(true);
         _anim.SetBool("Training", true);
  
         // Wait for training
@@ -105,11 +107,12 @@ public class Building : MonoBehaviour
         // Soldier trained!
         Instantiate(_soldier, _trans.position + (_trans.forward * _spawnSoldiderDistance), Quaternion.identity);
         // @TODO: remove traces
-        //Debug.DrawLine(_trans.position, _trans.position + (_trans.forward * _spawnSoldiderDistance), Color.red, 999999f);
+        Debug.DrawLine(_trans.position, _trans.position + (_trans.forward * _spawnSoldiderDistance), Color.blue, 999999f);
 
         _anim.SetBool("Training", false);
         // @TODO: cheaper option need it
         _smoke.SetActive(false);
+        ToogleBase(false);
         _boxCollider.enabled = true;
         _training = false;
 
@@ -120,5 +123,10 @@ public class Building : MonoBehaviour
     public bool CanTrain()
     {
         return !_training;
+    }
+
+    public void ToogleBase(bool _active)
+    {
+        _base.SetActive(_active);
     }
 }

@@ -237,6 +237,7 @@ public class PlayerController : MonoBehaviour
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
             _extract = true;
             _resourcesTrans = other.transform;
+            _resourcesTrans.GetComponent<Junk>().ToogleBase(true);
         }
         else if (other.tag == "Bunker" && (_placeholderBuilding == null))
         {
@@ -244,6 +245,7 @@ public class PlayerController : MonoBehaviour
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
             _train = true;
             _trainingBunker = other.GetComponent<Building>();
+            _trainingBunker.ToogleBase(true);
         }
 	}
 
@@ -254,6 +256,7 @@ public class PlayerController : MonoBehaviour
             _tmpEvent.Data = "";
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
             _extract = false;
+            _resourcesTrans.GetComponent<Junk>().ToogleBase(false);
             _resourcesTrans = null;
         }
         else if (other.tag == "Bunker" && (_placeholderBuilding == null))
@@ -261,6 +264,7 @@ public class PlayerController : MonoBehaviour
             _train = false;
             _tmpEvent.Data = "";
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
+            _trainingBunker.ToogleBase(false);
         }
     }
 

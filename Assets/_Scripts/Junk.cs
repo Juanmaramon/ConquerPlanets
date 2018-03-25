@@ -7,6 +7,7 @@ public class Junk : MonoBehaviour
     [SerializeField] int resources;
     [SerializeField] Animator _anim;
     [SerializeField] Renderer _rend;
+    [SerializeField] GameObject _base;
     public int extractTime = 5;
 
     float _nextExtractTime = 0f;
@@ -60,5 +61,10 @@ public class Junk : MonoBehaviour
         // Consumed resource!
 
         Destroy();
+    }
+
+    public void ToogleBase(bool _active)
+    {
+        _base.SetActive(_active);
     }
 }
