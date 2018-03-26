@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
                 // @TODO: report user max buldings reached
 
             }
-            if (_placeholderTurret)
+            else if (_placeholderTurret)
             {
                 DoTurret();
             }
@@ -284,7 +284,7 @@ public class PlayerController : MonoBehaviour
     void DoTurret()
     {
         // Check if there is a collider of another turret
-        _hitBuildDetect = Physics.BoxCast(_trans.position, _placeholderTurret.transform.localScale, transform.forward, out _hitCheck, _trans.rotation, _distanceBuildCheck);
+        _hitBuildDetect = Physics.BoxCast(_trans.position, _trans.localScale * 2, transform.forward, out _hitCheck, _trans.rotation, _distanceBuildCheck);
         if (!_hitBuildDetect)
         {
             StartCoroutine(BuildTurret());
