@@ -104,6 +104,10 @@ public class PlayerController : MonoBehaviour
                 // @TODO: report user max buldings reached
 
             }
+            if (_placeholderTurret)
+            {
+                DoTurret();
+            }
             else if (_extract)
             {
                 ExtractResources();
@@ -143,7 +147,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    IEnumerator Build()
+    IEnumerator BuildBuilding()
     {
         // @TODO: refactor to cheaper options
         Destroy(_placeholderBuilding);
@@ -179,6 +183,46 @@ public class PlayerController : MonoBehaviour
 
         // UI refresh
         GameManager.instance._resources -= BUILDING_RESOURCES;
+        _tmpEvent.Data = GameManager.instance._resources;
+        EventManager.TriggerEvent("OnNewResources", _tmpEvent);
+    }
+
+    IEnumerator BuildTurret()
+    {
+        // @TODO: refactor to cheaper options
+        Destroy(_placeholderTurret);
+
+        //GameManager.instance._currentBuildings++;
+        _offline = true;
+        _anim.SetBool("Build", true);
+        var spawnBuildingPosition = _trans.position + _trans.forward * _distanceBuildCheck;
+
+        gameObject.layer = LayerMask.NameToLayer(_layerBuilding);
+
+        Instantiate(buildings[2], spawnBuildingPosition, Quaternion.AngleAxis(Random.Range(0, 359), Vector3.up));
+
+        // Little animation to get worker close building
+        _trans.position += _trans.forward;
+
+        // @TODO: refactor to cheaper options
+        _fxFlare.SetActive(true);
+
+        yield return Yielders.Get(Turret.buildingTime);
+
+        //_tmpEvent.Data = GameManager.instance._currentBuildings;
+        //EventManager.TriggerEvent("OnNewBuilding", _tmpEvent);
+        _offline = false;
+        _anim.SetBool("Build", false);
+
+        // @TODO: refactor to cheaper options
+        _fxFlare.SetActive(false);
+
+        // Little animation to restore worker position
+        _trans.position -= _trans.forward * 2;
+        gameObject.layer = LayerMask.NameToLayer(_defaultLayer);
+
+        // UI refresh
+        GameManager.instance._resources -= TURRET_RESOURCES;
         _tmpEvent.Data = GameManager.instance._resources;
         EventManager.TriggerEvent("OnNewResources", _tmpEvent);
     }
@@ -228,13 +272,28 @@ public class PlayerController : MonoBehaviour
         _hitBuildDetect = Physics.BoxCast(_trans.position, _trans.localScale, transform.forward, out _hitCheck, _trans.rotation, _distanceBuildCheck);
         if (!_hitBuildDetect)
         {
-            StartCoroutine(Build()); 
+            StartCoroutine(BuildBuilding()); 
         }
         else
         {
             _tmpEvent.Data = NOT_AVAILABLE_TO_BUILD;
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
         }
+    }
+
+    void DoTurret()
+    {
+        // Check if there is a collider of another turret
+        _hitBuildDetect = Physics.BoxCast(_trans.position, _placeholderTurret.transform.localScale, transform.forward, out _hitCheck, _trans.rotation, _distanceBuildCheck);
+        if (!_hitBuildDetect)
+        {
+            StartCoroutine(BuildTurret());
+        }
+        else
+        {
+            _tmpEvent.Data = NOT_AVAILABLE_TO_BUILD;
+            EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
+        }       
     }
 
 	private void OnTriggerEnter(Collider other)

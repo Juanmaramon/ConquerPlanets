@@ -13,6 +13,7 @@ public class Turret : MonoBehaviour
     [SerializeField] LayerMask targetMask;
     [HideInInspector] List<Transform> visibleTargets = new List<Transform>();
 
+    public const float buildingTime = 7f;
     static float visibilityTime = 2f;
     static float staticTime = 2f;
 
