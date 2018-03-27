@@ -17,6 +17,8 @@ public class UIInGame : MonoBehaviour
 
     float _waitTime = 2f;
     float _explanationTime = 4f;
+    // Protect slider progress from receive input data from two or more sources concurrently
+    int _stateProgressSlider = 2;
 
 	private void Start()
 	{
@@ -62,12 +64,14 @@ public class UIInGame : MonoBehaviour
 
     void OnProgressSomething(BasicEvent e)
     {
-        ProgressSlider((float)e.Data);
+        if (_stateProgressSlider == 1)
+            ProgressSlider((float)e.Data);
     }
 
     void OnProgressExtract(BasicEvent e)
     {
-        ProgressSlider((float)e.Data);
+        if (_stateProgressSlider == 2)
+            ProgressSlider((float)e.Data);
     }
 
     void ProgressSlider(float f)
@@ -80,11 +84,13 @@ public class UIInGame : MonoBehaviour
         _progressSlider.fillAmount = 0f;
         if (e.Data.ToString() == Building.SOLDIER)
         {
+            _stateProgressSlider = 1;
             _numberResources.enabled = false;
             _progressIcon.sprite = _iconSoldiers;
         }
         else
         {
+            _stateProgressSlider = 2;
             _numberResources.enabled = true;
             _progressIcon.sprite = _iconResources;
         }

@@ -19,6 +19,8 @@ public class Turret : MonoBehaviour
 
 	private void Start()
 	{
+        // Here UI loading refresh...
+
         StartCoroutine("FindTargetsWithDelay", visibilityTime);
 	}
 
