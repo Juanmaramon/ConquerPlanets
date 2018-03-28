@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4438179063426832}
   - component: {fileID: 33594320371844554}
   - component: {fileID: 23298281994143032}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: PlaceHolderBunker
   m_TagString: Untagged
   m_Icon: {fileID: 0}

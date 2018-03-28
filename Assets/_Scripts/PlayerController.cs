@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] string _layerBuilding;    
     [SerializeField] string _defaultLayer;
     [SerializeField] SmoothFollow _camFollow;
+    [SerializeField] BoxCollider _buildCheck;
 
     float _horizontal = 0f;
     float _vertical = 0f;
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
     Quaternion _deltaRotation;
     Quaternion _targetRotation;
     float _offsetTurretPlaceholder = 1.5f;
+    bool _canBuild = true;
 
     // @TODO: const file with static values
     public static int BUILDING_RESOURCES = 100;
@@ -83,7 +85,7 @@ public class PlayerController : MonoBehaviour
 	{
         Gizmos.color = Color.cyan;
         Debug.DrawRay(_trans.position, _trans.forward * _distanceBuildCheck, Color.red);
-        Gizmos.DrawWireCube(_trans.position + _trans.forward * _distanceBuildCheck, _trans.localScale);
+        Gizmos.DrawWireCube(_trans.position + _trans.forward * _distanceBuildCheck, _trans.localScale * 2);
 	}*/
 
 	void Update()
@@ -128,10 +130,11 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape) && _placeholderBuilding)
+        if (Input.GetKeyDown(KeyCode.Escape) && (_placeholderBuilding || _placeholderTurret))
         {
             // @TODO: refactor to cheaper options
             Destroy(_placeholderBuilding);
+            _buildCheck.enabled = false;
         }
 
         // Update animation state
@@ -149,6 +152,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator BuildBuilding()
     {
+        _buildCheck.enabled = false;
         // @TODO: refactor to cheaper options
         Destroy(_placeholderBuilding);
  
@@ -189,6 +193,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator BuildTurret()
     {
+        _buildCheck.enabled = false;
         // @TODO: refactor to cheaper options
         Destroy(_placeholderTurret);
 
@@ -241,6 +246,7 @@ public class PlayerController : MonoBehaviour
             _placeholderBuilding.transform.position = _trans.position + _trans.forward * _distanceBuildCheck;
             _tmpEvent.Data = BUILD_INSTRUCTIONS;
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
+            _buildCheck.enabled = true;
         }
         else
         {
@@ -258,6 +264,7 @@ public class PlayerController : MonoBehaviour
             _placeholderTurret.transform.position = _trans.position + _trans.forward * _distanceBuildCheck + (_trans.up * _offsetTurretPlaceholder);
             _tmpEvent.Data = BUILD_INSTRUCTIONS;
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
+            _buildCheck.enabled = true;
 /*        }
         else
         {
@@ -269,8 +276,7 @@ public class PlayerController : MonoBehaviour
     void DoBuilding()
     {
         // Check if there is a collider of another building
-        _hitBuildDetect = Physics.BoxCast(_trans.position, _trans.localScale, transform.forward, out _hitCheck, _trans.rotation, _distanceBuildCheck);
-        if (!_hitBuildDetect)
+        if (_canBuild)
         {
             StartCoroutine(BuildBuilding()); 
         }
@@ -284,8 +290,7 @@ public class PlayerController : MonoBehaviour
     void DoTurret()
     {
         // Check if there is a collider of another turret
-        _hitBuildDetect = Physics.BoxCast(_trans.position, _trans.localScale * 2, transform.forward, out _hitCheck, _trans.rotation, _distanceBuildCheck);
-        if (!_hitBuildDetect)
+        if (_canBuild)
         {
             StartCoroutine(BuildTurret());
         }
@@ -298,7 +303,17 @@ public class PlayerController : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-        if (other.tag == "Junk" && (_placeholderBuilding == null))
+        if ((_placeholderTurret != null) || (_placeholderBuilding != null))
+        {
+            if (other.tag == "Junk" || other.tag == "Bunker" || other.tag == "Soldier")
+            {
+                _canBuild = false;
+            }
+
+            return;
+        }
+
+        if (other.tag == "Junk")
         {
             _tmpEvent.Data = EXTRACT_RESOURCES;
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
@@ -306,7 +321,7 @@ public class PlayerController : MonoBehaviour
             _resourcesTrans = other.transform;
             _resourcesTrans.GetComponent<Junk>().ToogleBase(true);
         }
-        else if (other.tag == "Bunker" && (_placeholderBuilding == null))
+        else if (other.tag == "Bunker")
         {
             _tmpEvent.Data = TRAIN_SOLDIERS;
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
@@ -318,7 +333,17 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Junk" && (_placeholderBuilding == null))
+        if ((_placeholderTurret != null) || (_placeholderBuilding != null))
+        {
+            if (other.tag == "Junk" || other.tag == "Bunker" || other.tag == "Soldier")
+            {
+                _canBuild = true;
+            }
+
+            return;
+        }
+
+        if (other.tag == "Junk")
         {
             _tmpEvent.Data = "";
             EventManager.TriggerEvent("OnNewExplanation", _tmpEvent);
@@ -326,7 +351,7 @@ public class PlayerController : MonoBehaviour
             _resourcesTrans.GetComponent<Junk>().ToogleBase(false);
             _resourcesTrans = null;
         }
-        else if (other.tag == "Bunker" && (_placeholderBuilding == null))
+        else if (other.tag == "Bunker")
         {
             _train = false;
             _tmpEvent.Data = "";

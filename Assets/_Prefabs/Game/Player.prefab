@@ -19,7 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4313724388234176}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Glass_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,8 +34,24 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4920969029011622}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Eye_joint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1043793081698692
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4375937778219610}
+  - component: {fileID: 65903174281273498}
+  m_Layer: 12
+  m_Name: BuildTest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,7 +66,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4537907202420966}
   - component: {fileID: 137848735180525322}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -67,7 +83,7 @@ GameObject:
   - component: {fileID: 4247651327026840}
   - component: {fileID: 198751592803657870}
   - component: {fileID: 199112818526367356}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Smoke
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,7 +98,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4347642920812624}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hand_Joint5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -99,7 +115,7 @@ GameObject:
   - component: {fileID: 4461637642515928}
   - component: {fileID: 198229080056783108}
   - component: {fileID: 199141890729592548}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Sparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +130,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4490656661965366}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hand_Joint2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4408284947897130}
   - component: {fileID: 137832558030873578}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -145,7 +161,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4635917719989116}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hand_Joint4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +176,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4558301662070386}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hand_Joint3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -176,7 +192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4314439384874384}
   - component: {fileID: 137386185005237840}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mask1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +212,7 @@ GameObject:
   - component: {fileID: 136874666672209288}
   - component: {fileID: 114797049568703918}
   - component: {fileID: 114557400543162422}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -212,7 +228,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4411467533260050}
   - component: {fileID: 137422634851216464}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -227,7 +243,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4771452382990744}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Body_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +258,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4466689310524454}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mask_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,7 +274,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4322246731634220}
   - component: {fileID: 96820779788868792}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Trail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -273,7 +289,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4670675999245924}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hand_Joint1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +304,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4272235150380456}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hand_joint8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -305,7 +321,7 @@ GameObject:
   - component: {fileID: 4414455735851222}
   - component: {fileID: 198642577728589060}
   - component: {fileID: 199480660635826568}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: FlareMobile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -320,7 +336,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4344682743813000}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hand_Joint6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,7 +351,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4577734741933020}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hand_Joint7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -350,7 +366,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4690058848834798}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Mask_joint 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -365,7 +381,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4362339296045314}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Light_joint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -388,6 +404,7 @@ Transform:
   - {fileID: 4411467533260050}
   - {fileID: 4408284947897130}
   - {fileID: 4314439384874384}
+  - {fileID: 4375937778219610}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -450,7 +467,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1646734490476888}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.8302162e-14, y: -14258.4, z: 0}
+  m_LocalPosition: {x: -3.8302162e-14, y: -14251, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4408284947897130}
@@ -496,6 +513,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4771452382990744}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4375937778219610
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1043793081698692}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.25, z: 5.03}
+  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_Children: []
+  m_Father: {fileID: 4037455299479216}
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4408284947897130
 Transform:
@@ -708,6 +738,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!65 &65903174281273498
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1043793081698692}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &95193306950882728
 Animator:
   serializedVersion: 3
@@ -851,9 +893,15 @@ MonoBehaviour:
   buildings:
   - {fileID: 1126966813420814, guid: 8f750edf8ae504ccc8206c3c5eb89140, type: 2}
   - {fileID: 1660034270096040, guid: e740ef5e25a88409381202952f180c4a, type: 2}
+  - {fileID: 1955303004269510, guid: 790cadf84458d4780830f144caee5ba5, type: 2}
+  - {fileID: 1253671996622560, guid: 96f662181c16a45a6a3600764c9ec79e, type: 2}
   _distanceBuildCheck: 5
   _contextMenu: {fileID: 0}
   _fxFlare: {fileID: 1785325750275284}
+  _layerBuilding: Ignore Raycast
+  _defaultLayer: Gameplay
+  _camFollow: {fileID: 0}
+  _buildCheck: {fileID: 65903174281273498}
 --- !u!136 &136874666672209288
 CapsuleCollider:
   m_ObjectHideFlags: 1

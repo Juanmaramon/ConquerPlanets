@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4126180273914164}
   - component: {fileID: 33387987163907500}
   - component: {fileID: 23492559628969826}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: FieldVision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4726913042338966}
   - component: {fileID: 33213447009481108}
   - component: {fileID: 23145095506770690}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Base_MachineGun_L01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4679851392583464}
   - component: {fileID: 33597949317677798}
   - component: {fileID: 23865373084684792}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Turret_MachineGun_L01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,9 +74,9 @@ GameObject:
   - component: {fileID: 114170807801664394}
   - component: {fileID: 65113310370839264}
   - component: {fileID: 54293273635666264}
-  m_Layer: 1
+  m_Layer: 0
   m_Name: Turret
-  m_TagString: Untagged
+  m_TagString: Turret
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

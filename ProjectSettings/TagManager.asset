@@ -9,6 +9,8 @@ TagManager:
   - Junk
   - Bunker
   - Waypoint
+  - Turret
+  - Soldier
   layers:
   - Default
   - TransparentFX
@@ -22,8 +24,8 @@ TagManager:
   - Planet
   - Soldier
   - Waypoint
-  - 
-  - 
+  - BuildCheck
+  - Junk
   - 
   - 
   - 

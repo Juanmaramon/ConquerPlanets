@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 114635616273336778}
   m_Layer: 10
   m_Name: Soldier
-  m_TagString: Untagged
+  m_TagString: Soldier
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -873,11 +873,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkSpeed: 5
-  _chkDst: 0.02
   _trans: {fileID: 4055015618870038}
-  _speed: 5
   _anim: {fileID: 95902336060898720}
-  _waypoints: {fileID: 0}
   _rigid: {fileID: 54959502119247968}
   _col: {fileID: 136996208040994368}
 --- !u!114 &114976427777571964
