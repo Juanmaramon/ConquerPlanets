@@ -22,6 +22,7 @@ public class Building : MonoBehaviour
     // @TODO: change to global item enum
     public static string SOLDIER = "SOLDIER";
     public static string RESOURCES = "RESOURCES";
+    public static string TURRET = "Turret";
 
     float _nextWaitTime = 0f;
     float _initWaitTime = 0f;
@@ -100,7 +101,7 @@ public class Building : MonoBehaviour
         while (Time.time < _nextWaitTime)
         {
             _tmpEvent.Data = (Time.time - _initWaitTime) / trainTime;
-            EventManager.TriggerEvent("OnProgressSoldier", _tmpEvent);
+            EventManager.TriggerEvent("OnProgressUnit", _tmpEvent);
             yield return _yield;
         }
 

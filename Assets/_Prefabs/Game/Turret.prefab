@@ -74,6 +74,7 @@ GameObject:
   - component: {fileID: 114170807801664394}
   - component: {fileID: 65113310370839264}
   - component: {fileID: 54293273635666264}
+  - component: {fileID: 95924349655074392}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Turret
@@ -286,6 +287,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.4485316, y: 2.8313065, z: 3.4367309}
   m_Center: {x: 0.060603857, y: 0.40989494, z: -0.23607898}
+--- !u!95 &95924349655074392
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1955303004269510}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 60f6500f5e03747f2af50f3ce2cbb68e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114170807801664394
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -314,9 +332,10 @@ MonoBehaviour:
   _trans: {fileID: 4460134887449810}
   _rigid: {fileID: 54293273635666264}
   topTurret: {fileID: 4679851392583464}
-  target: {fileID: 0}
+  target: {fileID: 4460134887449810}
   rotationSmoothness: 1.5
   viewRadius: 10
   targetMask:
     serializedVersion: 2
     m_Bits: 256
+  _anim: {fileID: 95924349655074392}

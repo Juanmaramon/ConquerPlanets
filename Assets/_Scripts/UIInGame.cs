@@ -26,7 +26,7 @@ public class UIInGame : MonoBehaviour
         EventManager.StartListening<BasicEvent>("OnProgressBuilding", OnProgressBuilding);
         EventManager.StartListening<BasicEvent>("OnNewExplanation", OnNewExplanation);
         EventManager.StartListening<BasicEvent>("OnProgressExtract", OnProgressExtract);
-        EventManager.StartListening<BasicEvent>("OnProgressSoldier", OnProgressSomething);
+        EventManager.StartListening<BasicEvent>("OnProgressUnit", OnProgressSomething);
         EventManager.StartListening<BasicEvent>("OnNewResources", OnNewResources);
         EventManager.StartListening<BasicEvent>("OnProgressChange", OnProgressChange);
 
@@ -38,7 +38,7 @@ public class UIInGame : MonoBehaviour
         EventManager.StopListening<BasicEvent>("OnProgressBuilding", OnProgressBuilding);
         EventManager.StopListening<BasicEvent>("OnNewExplanation", OnNewExplanation);
         EventManager.StopListening<BasicEvent>("OnProgressExtract", OnProgressExtract);
-        EventManager.StopListening<BasicEvent>("OnProgressSoldier", OnProgressSomething);
+        EventManager.StopListening<BasicEvent>("OnProgressUnit", OnProgressSomething);
         EventManager.StopListening<BasicEvent>("OnNewResources", OnNewResources);
         EventManager.StopListening<BasicEvent>("OnProgressChange", OnProgressChange);
 	}
@@ -82,7 +82,7 @@ public class UIInGame : MonoBehaviour
     void OnProgressChange(BasicEvent e)
     {
         _progressSlider.fillAmount = 0f;
-        if (e.Data.ToString() == Building.SOLDIER)
+        if (e.Data.ToString() == Building.SOLDIER || e.Data.ToString() == Building.TURRET)
         {
             _stateProgressSlider = 1;
             _numberResources.enabled = false;
