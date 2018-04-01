@@ -101,11 +101,8 @@ public class Turret : MonoBehaviour
                 if (Time.time > _nextFireTime)
                 {
                     _nextFireTime = Time.time + _fireRate;
-                    Debug.DrawRay(_shootPoint.position, ((visibleTargets[0].position + _offsetVisibility) - _shootPoint.position).normalized, Color.red, Mathf.Infinity);
-                    //Debug.DrawLine(_shootPoint.position, visibleTargets[0].position + _offsetVisibility, Color.red, Mathf.Infinity);
-                    if (Physics.Raycast(_shootPoint.position, ((visibleTargets[0].position + _offsetVisibility) - _shootPoint.position).normalized, out _hit, Mathf.Infinity, targetMask, QueryTriggerInteraction.UseGlobal))
+                    if (Physics.Raycast(_shootPoint.position, _shootPoint.forward, out _hit, Mathf.Infinity, targetMask))
                     {
-                        //Debug.DrawLine(_shootPoint.position, _trans.position + visibleTargets[0].position, Color.red);
                         if (_hit.collider)
                         {
                             Debug.Log(_hit.collider.name);
