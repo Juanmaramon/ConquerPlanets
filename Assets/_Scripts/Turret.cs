@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+#pragma warning disable 0649
+
 public class Turret : MonoBehaviour 
 {
     [SerializeField] Transform _trans;
@@ -13,6 +15,9 @@ public class Turret : MonoBehaviour
     [SerializeField] LayerMask targetMask;
     [HideInInspector] List<Transform> visibleTargets = new List<Transform>();
     [SerializeField] Animator _anim;
+    [SerializeField] ParticleSystem _fire;
+    [SerializeField] ParticleSystem _shoot;
+    [SerializeField] Transform _shootPoint;
 
     Vector3 _offsetVisibility = new Vector3(0f, 1f, 0f);
 
@@ -21,6 +26,11 @@ public class Turret : MonoBehaviour
     float _initExtractTime = 0f;
     BasicEvent _tmpEvent;
     WaitForSeconds _yield;
+    bool _targetting;
+    Collider[] _targetsInViewRadius = new Collider[10];
+    float _fireRate;
+    float _nextFireTime;
+    RaycastHit _hit;
 
     static float visibilityTime = 2f;
     static float staticTime = 2f;
@@ -33,6 +43,8 @@ public class Turret : MonoBehaviour
         // Here UI loading refresh...
         StartCoroutine(RefreshUI());
         _anim.SetTrigger("Building");
+        _targetting = false;
+        _fireRate = _shoot.main.duration;
 	}
 
     IEnumerator FindTargetsWithDelay(float delay)
@@ -47,11 +59,11 @@ public class Turret : MonoBehaviour
     void FindVisibleTargets()
     {
         visibleTargets.Clear();
-        Collider[] targetsInViewRadius = Physics.OverlapSphere(_trans.position, viewRadius, targetMask);
+        int found = Physics.OverlapSphereNonAlloc(_trans.position, viewRadius, _targetsInViewRadius, targetMask);
 
-        for (int i = 0; i < targetsInViewRadius.Length; i++)
+        for (int i = 0; i < found; i++)
         {
-            visibleTargets.Add(targetsInViewRadius[i].transform);
+            visibleTargets.Add(_targetsInViewRadius[i].transform);
         }
     }
 
@@ -77,6 +89,38 @@ public class Turret : MonoBehaviour
         {
             Quaternion rotation = Quaternion.LookRotation((visibleTargets[0].position +_offsetVisibility) - topTurret.position, _trans.up);
             topTurret.rotation = Quaternion.Slerp(topTurret.rotation, rotation, Time.deltaTime * rotationSmoothness);
+
+            if (!_targetting)
+            {
+                _targetting = true;
+                _fire.Play(true);
+                _nextFireTime = Time.time + _fireRate;
+            }
+            else
+            {
+                if (Time.time > _nextFireTime)
+                {
+                    _nextFireTime = Time.time + _fireRate;
+                    Debug.DrawRay(_shootPoint.position, ((visibleTargets[0].position + _offsetVisibility) - _shootPoint.position).normalized, Color.red, Mathf.Infinity);
+                    //Debug.DrawLine(_shootPoint.position, visibleTargets[0].position + _offsetVisibility, Color.red, Mathf.Infinity);
+                    if (Physics.Raycast(_shootPoint.position, ((visibleTargets[0].position + _offsetVisibility) - _shootPoint.position).normalized, out _hit, Mathf.Infinity, targetMask, QueryTriggerInteraction.UseGlobal))
+                    {
+                        //Debug.DrawLine(_shootPoint.position, _trans.position + visibleTargets[0].position, Color.red);
+                        if (_hit.collider)
+                        {
+                            Debug.Log(_hit.collider.name);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            if (_targetting)
+            {
+                _targetting = false;
+                _fire.Stop(true);
+            }
         }
 	}
 
