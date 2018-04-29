@@ -59,7 +59,8 @@ public class Soldier : PathManager
 
     protected override void OnTargedReached()
     {
-        _anim.SetTrigger("Dance");
+        //_anim.SetTrigger("Dance");
+        _anim.SetTrigger("Idle");
         _rigid.isKinematic = false;
         _col.isTrigger = false;
     }

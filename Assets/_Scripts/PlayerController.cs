@@ -134,6 +134,7 @@ public class PlayerController : MonoBehaviour
         {
             // @TODO: refactor to cheaper options
             Destroy(_placeholderBuilding);
+            Destroy(_placeholderTurret);
             _buildCheck.enabled = false;
         }
 

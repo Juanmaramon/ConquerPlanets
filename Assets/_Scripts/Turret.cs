@@ -87,7 +87,7 @@ public class Turret : MonoBehaviour
     {
         if (visibleTargets.Count > 0)
         {
-            Quaternion rotation = Quaternion.LookRotation((visibleTargets[0].position +_offsetVisibility) - topTurret.position, _trans.up);
+            Quaternion rotation = Quaternion.LookRotation((visibleTargets[0].position + visibleTargets[0].up) - topTurret.position, _trans.up);
             topTurret.rotation = Quaternion.Slerp(topTurret.rotation, rotation, Time.deltaTime * rotationSmoothness);
 
             if (!_targetting)
@@ -101,6 +101,7 @@ public class Turret : MonoBehaviour
                 if (Time.time > _nextFireTime)
                 {
                     _nextFireTime = Time.time + _fireRate;
+                    Debug.DrawRay(_shootPoint.position, _shootPoint.forward * 1000, Color.red, 10);
                     if (Physics.Raycast(_shootPoint.position, _shootPoint.forward, out _hit, Mathf.Infinity, targetMask))
                     {
                         if (_hit.collider)

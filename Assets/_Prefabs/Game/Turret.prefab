@@ -402,6 +402,8 @@ MonoBehaviour:
     m_Bits: 256
   _anim: {fileID: 95924349655074392}
   _fire: {fileID: 198388688302933024}
+  _shoot: {fileID: 198954169519882566}
+  _shootPoint: {fileID: 4947427345131670}
 --- !u!198 &198388688302933024
 ParticleSystem:
   m_ObjectHideFlags: 1
