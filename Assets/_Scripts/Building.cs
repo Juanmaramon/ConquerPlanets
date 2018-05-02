@@ -119,6 +119,11 @@ public class Building : MonoBehaviour
 
         _tmpEvent.Data = RESOURCES;
         EventManager.TriggerEvent("OnProgressChange", _tmpEvent);
+
+        // UI refresh
+        GameManager.instance._resources -= PlayerController.SOLDIER_RESOURCES;
+        _tmpEvent.Data = GameManager.instance._resources;
+        EventManager.TriggerEvent("OnNewResources", _tmpEvent);
     }
 
     public bool CanTrain()
