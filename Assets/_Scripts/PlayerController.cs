@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
     // @TODO: const file with static values
     public static int BUILDING_RESOURCES = 100;
     public static int TURRET_RESOURCES = 200;
+    public static int SOLDIER_RESOURCES = 50;
 
     // @TODO: refactor to string class
     static string LIMIT_BUILDINGS_REACHED = "Cannot build, maximum buildings reached";
@@ -116,11 +117,8 @@ public class PlayerController : MonoBehaviour
             }
             else if (_train)
             {
-                if (_trainingBunker.CanTrain())
-                    _trainingBunker.Train();
-
-                _train = false;
-                _trainingBunker = null;
+                _offline = true;
+                _contextMenu.EnterContextMenu(false);
             }
             // Enter on context menu
             else
@@ -236,6 +234,15 @@ public class PlayerController : MonoBehaviour
     void OnExitContextMenu(BasicEvent e)
     {
         _offline = false;
+    }
+
+    public void StartTrainingSoldier()
+    {
+        if (_trainingBunker.CanTrain())
+            _trainingBunker.Train();
+
+        _train = false;
+        _trainingBunker = null;        
     }
 
     public void StartMakeBuilding()
