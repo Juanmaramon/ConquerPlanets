@@ -10,6 +10,7 @@ public class Soldier : PathManager
     [HideInInspector] List<Transform> visibleTargets = new List<Transform>();
     [SerializeField] float viewRadius;
     [SerializeField] LayerMask targetMask;
+    [SerializeField] float rotationSmoothness = .1f;
     Collider[] _targetsInViewRadius = new Collider[10];
 
     static float visibilityTime = 2f;
@@ -58,12 +59,18 @@ public class Soldier : PathManager
         }
                 
         //Debug.DrawRay(_trans.position, transform.forward * 10f, Color.green, Mathf.Infinity);
+        StartCoroutine("FindTargetsWithDelay", visibilityTime);
  	}
 
 	private new void Update()
 	{
         if (_findingPath)
             base.Update();
+        else if (visibleTargets.Count > 0)
+        {
+            Quaternion rotation = Quaternion.LookRotation((visibleTargets[0].position + visibleTargets[0].up) - _trans.position, _trans.up);
+            _trans.rotation = Quaternion.Slerp(_trans.rotation, rotation, Time.deltaTime * rotationSmoothness);            
+        }
  	}
 
     protected override void OnTargedReached()
@@ -73,7 +80,6 @@ public class Soldier : PathManager
         _rigid.isKinematic = false;
         _col.isTrigger = false;
         _findingPath = false;
-        StartCoroutine("FindTargetsWithDelay", visibilityTime);
     }
 
     void FindVisibleTargets()
@@ -84,13 +90,13 @@ public class Soldier : PathManager
         for (int i = 0; i < found; i++)
         {
             visibleTargets.Add(_targetsInViewRadius[i].transform);
-            Debug.Log(_targetsInViewRadius[i].name);
+            //Debug.Log(_targetsInViewRadius[i].name);
         }
     }
 
     IEnumerator FindTargetsWithDelay(float delay)
     {
-        while (!_findingPath)
+        while (true)
         {
             yield return Yielders.Get(delay);
             FindVisibleTargets();

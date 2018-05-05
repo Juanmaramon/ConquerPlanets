@@ -881,6 +881,7 @@ MonoBehaviour:
   targetMask:
     serializedVersion: 2
     m_Bits: 256
+  rotationSmoothness: 4
 --- !u!114 &114976427777571964
 MonoBehaviour:
   m_ObjectHideFlags: 1
