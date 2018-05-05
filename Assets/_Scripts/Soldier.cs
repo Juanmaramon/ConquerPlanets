@@ -15,6 +15,7 @@ public class Soldier : PathManager
 
     static float visibilityTime = 2f;
     bool _findingPath = true;
+    bool _attack = false;
 
 	private void Start()
 	{
@@ -69,7 +70,13 @@ public class Soldier : PathManager
         else if (visibleTargets.Count > 0)
         {
             Quaternion rotation = Quaternion.LookRotation((visibleTargets[0].position + visibleTargets[0].up) - _trans.position, _trans.up);
-            _trans.rotation = Quaternion.Slerp(_trans.rotation, rotation, Time.deltaTime * rotationSmoothness);            
+            _trans.rotation = Quaternion.Slerp(_trans.rotation, rotation, Time.deltaTime * rotationSmoothness);   
+
+            if (_attack)
+            {
+                _attack = false;
+                _anim.SetTrigger("Attack");
+            }
         }
  	}
 
@@ -80,6 +87,7 @@ public class Soldier : PathManager
         _rigid.isKinematic = false;
         _col.isTrigger = false;
         _findingPath = false;
+        _attack = true;
     }
 
     void FindVisibleTargets()
