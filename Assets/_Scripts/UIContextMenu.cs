@@ -154,7 +154,8 @@ public class UIContextMenu : MonoBehaviour
                             ExitContextMenu();
                         }                        
                         break;
-                    case "ExitContextMenu":
+                    case "ExitContextGeneralMenu":
+                    case "ExitContextDetailMenu":
                         ExitContextMenu();
                         break;
                 }

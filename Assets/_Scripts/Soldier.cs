@@ -7,9 +7,17 @@ public class Soldier : PathManager
     [SerializeField] Animator _anim;
     [SerializeField] Rigidbody _rigid;
     [SerializeField] CapsuleCollider _col;
+    [HideInInspector] List<Transform> visibleTargets = new List<Transform>();
+    [SerializeField] float viewRadius;
+    [SerializeField] LayerMask targetMask;
+    Collider[] _targetsInViewRadius = new Collider[10];
+
+    static float visibilityTime = 2f;
+    bool _findingPath = true;
 
 	private void Start()
 	{
+        _findingPath = true;
         var rand = Random.Range(0, 5);
         float res = 0f;
         switch (rand)
@@ -54,8 +62,9 @@ public class Soldier : PathManager
 
 	private new void Update()
 	{
-        base.Update();
-	}
+        if (_findingPath)
+            base.Update();
+ 	}
 
     protected override void OnTargedReached()
     {
@@ -63,5 +72,28 @@ public class Soldier : PathManager
         _anim.SetTrigger("Idle");
         _rigid.isKinematic = false;
         _col.isTrigger = false;
+        _findingPath = false;
+        StartCoroutine("FindTargetsWithDelay", visibilityTime);
+    }
+
+    void FindVisibleTargets()
+    {
+        visibleTargets.Clear();
+        int found = Physics.OverlapSphereNonAlloc(_trans.position, viewRadius, _targetsInViewRadius, targetMask);
+
+        for (int i = 0; i < found; i++)
+        {
+            visibleTargets.Add(_targetsInViewRadius[i].transform);
+            Debug.Log(_targetsInViewRadius[i].name);
+        }
+    }
+
+    IEnumerator FindTargetsWithDelay(float delay)
+    {
+        while (!_findingPath)
+        {
+            yield return Yielders.Get(delay);
+            FindVisibleTargets();
+        }
     }
 }

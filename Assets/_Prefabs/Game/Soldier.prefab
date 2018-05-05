@@ -877,6 +877,10 @@ MonoBehaviour:
   _anim: {fileID: 95902336060898720}
   _rigid: {fileID: 54959502119247968}
   _col: {fileID: 136996208040994368}
+  viewRadius: 10
+  targetMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &114976427777571964
 MonoBehaviour:
   m_ObjectHideFlags: 1
